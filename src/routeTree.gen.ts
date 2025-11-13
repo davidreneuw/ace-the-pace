@@ -9,159 +9,215 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoWorkosRouteImport } from './routes/demo/workos'
-import { Route as DemoConvexRouteImport } from './routes/demo/convex'
-import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
-import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
-import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
-import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
-import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
-import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
-import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardQuestionsRouteImport } from './routes/dashboard/questions'
+import { Route as DashboardPracticeRouteImport } from './routes/dashboard/practice'
+import { Route as DashboardPerformanceRouteImport } from './routes/dashboard/performance'
+import { Route as DashboardCategoriesRouteImport } from './routes/dashboard/categories'
+import { Route as DashboardAdminRouteImport } from './routes/dashboard/admin'
+import { Route as DashboardQuestionsIndexRouteImport } from './routes/dashboard/questions/index'
+import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
+import { Route as DashboardQuestionsPracticeRouteImport } from './routes/dashboard/questions/practice'
+import { Route as DashboardQuestionsBankRouteImport } from './routes/dashboard/questions/bank'
+import { Route as DashboardAdminQuestionsRouteImport } from './routes/dashboard/admin/questions'
+import { Route as DashboardAdminCategoriesRouteImport } from './routes/dashboard/admin/categories'
+import { Route as DashboardQuestionsAnswerQuestionIdRouteImport } from './routes/dashboard/questions/answer.$questionId'
 
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoWorkosRoute = DemoWorkosRouteImport.update({
-  id: '/demo/workos',
-  path: '/demo/workos',
-  getParentRoute: () => rootRouteImport,
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DemoConvexRoute = DemoConvexRouteImport.update({
-  id: '/demo/convex',
-  path: '/demo/convex',
-  getParentRoute: () => rootRouteImport,
+const DashboardQuestionsRoute = DashboardQuestionsRouteImport.update({
+  id: '/questions',
+  path: '/questions',
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
-  id: '/demo/start/server-funcs',
-  path: '/demo/start/server-funcs',
-  getParentRoute: () => rootRouteImport,
+const DashboardPracticeRoute = DashboardPracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DemoStartApiRequestRoute = DemoStartApiRequestRouteImport.update({
-  id: '/demo/start/api-request',
-  path: '/demo/start/api-request',
-  getParentRoute: () => rootRouteImport,
+const DashboardPerformanceRoute = DashboardPerformanceRouteImport.update({
+  id: '/performance',
+  path: '/performance',
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
-  id: '/demo/api/names',
-  path: '/demo/api/names',
-  getParentRoute: () => rootRouteImport,
+const DashboardCategoriesRoute = DashboardCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
-  id: '/demo/start/ssr/',
-  path: '/demo/start/ssr/',
-  getParentRoute: () => rootRouteImport,
+const DashboardAdminRoute = DashboardAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => DashboardRoute,
 } as any)
-const DemoStartSsrSpaModeRoute = DemoStartSsrSpaModeRouteImport.update({
-  id: '/demo/start/ssr/spa-mode',
-  path: '/demo/start/ssr/spa-mode',
-  getParentRoute: () => rootRouteImport,
+const DashboardQuestionsIndexRoute = DashboardQuestionsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardQuestionsRoute,
 } as any)
-const DemoStartSsrFullSsrRoute = DemoStartSsrFullSsrRouteImport.update({
-  id: '/demo/start/ssr/full-ssr',
-  path: '/demo/start/ssr/full-ssr',
-  getParentRoute: () => rootRouteImport,
+const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardAdminRoute,
 } as any)
-const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
-  id: '/demo/start/ssr/data-only',
-  path: '/demo/start/ssr/data-only',
-  getParentRoute: () => rootRouteImport,
+const DashboardQuestionsPracticeRoute =
+  DashboardQuestionsPracticeRouteImport.update({
+    id: '/practice',
+    path: '/practice',
+    getParentRoute: () => DashboardQuestionsRoute,
+  } as any)
+const DashboardQuestionsBankRoute = DashboardQuestionsBankRouteImport.update({
+  id: '/bank',
+  path: '/bank',
+  getParentRoute: () => DashboardQuestionsRoute,
 } as any)
+const DashboardAdminQuestionsRoute = DashboardAdminQuestionsRouteImport.update({
+  id: '/questions',
+  path: '/questions',
+  getParentRoute: () => DashboardAdminRoute,
+} as any)
+const DashboardAdminCategoriesRoute =
+  DashboardAdminCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => DashboardAdminRoute,
+  } as any)
+const DashboardQuestionsAnswerQuestionIdRoute =
+  DashboardQuestionsAnswerQuestionIdRouteImport.update({
+    id: '/answer/$questionId',
+    path: '/answer/$questionId',
+    getParentRoute: () => DashboardQuestionsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/demo/convex': typeof DemoConvexRoute
-  '/demo/workos': typeof DemoWorkosRoute
-  '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
-  '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
-  '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/demo/start/ssr': typeof DemoStartSsrIndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/admin': typeof DashboardAdminRouteWithChildren
+  '/dashboard/categories': typeof DashboardCategoriesRoute
+  '/dashboard/performance': typeof DashboardPerformanceRoute
+  '/dashboard/practice': typeof DashboardPracticeRoute
+  '/dashboard/questions': typeof DashboardQuestionsRouteWithChildren
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
+  '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
+  '/dashboard/questions/bank': typeof DashboardQuestionsBankRoute
+  '/dashboard/questions/practice': typeof DashboardQuestionsPracticeRoute
+  '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/questions/': typeof DashboardQuestionsIndexRoute
+  '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/demo/convex': typeof DemoConvexRoute
-  '/demo/workos': typeof DemoWorkosRoute
-  '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
-  '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
-  '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/demo/start/ssr': typeof DemoStartSsrIndexRoute
+  '/dashboard/categories': typeof DashboardCategoriesRoute
+  '/dashboard/performance': typeof DashboardPerformanceRoute
+  '/dashboard/practice': typeof DashboardPracticeRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
+  '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
+  '/dashboard/questions/bank': typeof DashboardQuestionsBankRoute
+  '/dashboard/questions/practice': typeof DashboardQuestionsPracticeRoute
+  '/dashboard/admin': typeof DashboardAdminIndexRoute
+  '/dashboard/questions': typeof DashboardQuestionsIndexRoute
+  '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/demo/convex': typeof DemoConvexRoute
-  '/demo/workos': typeof DemoWorkosRoute
-  '/demo/api/names': typeof DemoApiNamesRoute
-  '/demo/start/api-request': typeof DemoStartApiRequestRoute
-  '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
-  '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
-  '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
-  '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
-  '/demo/start/ssr/': typeof DemoStartSsrIndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/admin': typeof DashboardAdminRouteWithChildren
+  '/dashboard/categories': typeof DashboardCategoriesRoute
+  '/dashboard/performance': typeof DashboardPerformanceRoute
+  '/dashboard/practice': typeof DashboardPracticeRoute
+  '/dashboard/questions': typeof DashboardQuestionsRouteWithChildren
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
+  '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
+  '/dashboard/questions/bank': typeof DashboardQuestionsBankRoute
+  '/dashboard/questions/practice': typeof DashboardQuestionsPracticeRoute
+  '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/questions/': typeof DashboardQuestionsIndexRoute
+  '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/demo/convex'
-    | '/demo/workos'
-    | '/demo/api/names'
-    | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
-    | '/demo/start/ssr/data-only'
-    | '/demo/start/ssr/full-ssr'
-    | '/demo/start/ssr/spa-mode'
-    | '/demo/start/ssr'
+    | '/dashboard'
+    | '/dashboard/admin'
+    | '/dashboard/categories'
+    | '/dashboard/performance'
+    | '/dashboard/practice'
+    | '/dashboard/questions'
+    | '/dashboard/'
+    | '/dashboard/admin/categories'
+    | '/dashboard/admin/questions'
+    | '/dashboard/questions/bank'
+    | '/dashboard/questions/practice'
+    | '/dashboard/admin/'
+    | '/dashboard/questions/'
+    | '/dashboard/questions/answer/$questionId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/demo/convex'
-    | '/demo/workos'
-    | '/demo/api/names'
-    | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
-    | '/demo/start/ssr/data-only'
-    | '/demo/start/ssr/full-ssr'
-    | '/demo/start/ssr/spa-mode'
-    | '/demo/start/ssr'
+    | '/dashboard/categories'
+    | '/dashboard/performance'
+    | '/dashboard/practice'
+    | '/dashboard'
+    | '/dashboard/admin/categories'
+    | '/dashboard/admin/questions'
+    | '/dashboard/questions/bank'
+    | '/dashboard/questions/practice'
+    | '/dashboard/admin'
+    | '/dashboard/questions'
+    | '/dashboard/questions/answer/$questionId'
   id:
     | '__root__'
     | '/'
-    | '/demo/convex'
-    | '/demo/workos'
-    | '/demo/api/names'
-    | '/demo/start/api-request'
-    | '/demo/start/server-funcs'
-    | '/demo/start/ssr/data-only'
-    | '/demo/start/ssr/full-ssr'
-    | '/demo/start/ssr/spa-mode'
-    | '/demo/start/ssr/'
+    | '/dashboard'
+    | '/dashboard/admin'
+    | '/dashboard/categories'
+    | '/dashboard/performance'
+    | '/dashboard/practice'
+    | '/dashboard/questions'
+    | '/dashboard/'
+    | '/dashboard/admin/categories'
+    | '/dashboard/admin/questions'
+    | '/dashboard/questions/bank'
+    | '/dashboard/questions/practice'
+    | '/dashboard/admin/'
+    | '/dashboard/questions/'
+    | '/dashboard/questions/answer/$questionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DemoConvexRoute: typeof DemoConvexRoute
-  DemoWorkosRoute: typeof DemoWorkosRoute
-  DemoApiNamesRoute: typeof DemoApiNamesRoute
-  DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
-  DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
-  DemoStartSsrDataOnlyRoute: typeof DemoStartSsrDataOnlyRoute
-  DemoStartSsrFullSsrRoute: typeof DemoStartSsrFullSsrRoute
-  DemoStartSsrSpaModeRoute: typeof DemoStartSsrSpaModeRoute
-  DemoStartSsrIndexRoute: typeof DemoStartSsrIndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -169,83 +225,159 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/workos': {
-      id: '/demo/workos'
-      path: '/demo/workos'
-      fullPath: '/demo/workos'
-      preLoaderRoute: typeof DemoWorkosRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/demo/convex': {
-      id: '/demo/convex'
-      path: '/demo/convex'
-      fullPath: '/demo/convex'
-      preLoaderRoute: typeof DemoConvexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/questions': {
+      id: '/dashboard/questions'
+      path: '/questions'
+      fullPath: '/dashboard/questions'
+      preLoaderRoute: typeof DashboardQuestionsRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/demo/start/server-funcs': {
-      id: '/demo/start/server-funcs'
-      path: '/demo/start/server-funcs'
-      fullPath: '/demo/start/server-funcs'
-      preLoaderRoute: typeof DemoStartServerFuncsRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/practice': {
+      id: '/dashboard/practice'
+      path: '/practice'
+      fullPath: '/dashboard/practice'
+      preLoaderRoute: typeof DashboardPracticeRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/demo/start/api-request': {
-      id: '/demo/start/api-request'
-      path: '/demo/start/api-request'
-      fullPath: '/demo/start/api-request'
-      preLoaderRoute: typeof DemoStartApiRequestRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/performance': {
+      id: '/dashboard/performance'
+      path: '/performance'
+      fullPath: '/dashboard/performance'
+      preLoaderRoute: typeof DashboardPerformanceRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/demo/api/names': {
-      id: '/demo/api/names'
-      path: '/demo/api/names'
-      fullPath: '/demo/api/names'
-      preLoaderRoute: typeof DemoApiNamesRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/categories': {
+      id: '/dashboard/categories'
+      path: '/categories'
+      fullPath: '/dashboard/categories'
+      preLoaderRoute: typeof DashboardCategoriesRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/demo/start/ssr/': {
-      id: '/demo/start/ssr/'
-      path: '/demo/start/ssr'
-      fullPath: '/demo/start/ssr'
-      preLoaderRoute: typeof DemoStartSsrIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/admin': {
+      id: '/dashboard/admin'
+      path: '/admin'
+      fullPath: '/dashboard/admin'
+      preLoaderRoute: typeof DashboardAdminRouteImport
+      parentRoute: typeof DashboardRoute
     }
-    '/demo/start/ssr/spa-mode': {
-      id: '/demo/start/ssr/spa-mode'
-      path: '/demo/start/ssr/spa-mode'
-      fullPath: '/demo/start/ssr/spa-mode'
-      preLoaderRoute: typeof DemoStartSsrSpaModeRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/questions/': {
+      id: '/dashboard/questions/'
+      path: '/'
+      fullPath: '/dashboard/questions/'
+      preLoaderRoute: typeof DashboardQuestionsIndexRouteImport
+      parentRoute: typeof DashboardQuestionsRoute
     }
-    '/demo/start/ssr/full-ssr': {
-      id: '/demo/start/ssr/full-ssr'
-      path: '/demo/start/ssr/full-ssr'
-      fullPath: '/demo/start/ssr/full-ssr'
-      preLoaderRoute: typeof DemoStartSsrFullSsrRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/admin/': {
+      id: '/dashboard/admin/'
+      path: '/'
+      fullPath: '/dashboard/admin/'
+      preLoaderRoute: typeof DashboardAdminIndexRouteImport
+      parentRoute: typeof DashboardAdminRoute
     }
-    '/demo/start/ssr/data-only': {
-      id: '/demo/start/ssr/data-only'
-      path: '/demo/start/ssr/data-only'
-      fullPath: '/demo/start/ssr/data-only'
-      preLoaderRoute: typeof DemoStartSsrDataOnlyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/dashboard/questions/practice': {
+      id: '/dashboard/questions/practice'
+      path: '/practice'
+      fullPath: '/dashboard/questions/practice'
+      preLoaderRoute: typeof DashboardQuestionsPracticeRouteImport
+      parentRoute: typeof DashboardQuestionsRoute
+    }
+    '/dashboard/questions/bank': {
+      id: '/dashboard/questions/bank'
+      path: '/bank'
+      fullPath: '/dashboard/questions/bank'
+      preLoaderRoute: typeof DashboardQuestionsBankRouteImport
+      parentRoute: typeof DashboardQuestionsRoute
+    }
+    '/dashboard/admin/questions': {
+      id: '/dashboard/admin/questions'
+      path: '/questions'
+      fullPath: '/dashboard/admin/questions'
+      preLoaderRoute: typeof DashboardAdminQuestionsRouteImport
+      parentRoute: typeof DashboardAdminRoute
+    }
+    '/dashboard/admin/categories': {
+      id: '/dashboard/admin/categories'
+      path: '/categories'
+      fullPath: '/dashboard/admin/categories'
+      preLoaderRoute: typeof DashboardAdminCategoriesRouteImport
+      parentRoute: typeof DashboardAdminRoute
+    }
+    '/dashboard/questions/answer/$questionId': {
+      id: '/dashboard/questions/answer/$questionId'
+      path: '/answer/$questionId'
+      fullPath: '/dashboard/questions/answer/$questionId'
+      preLoaderRoute: typeof DashboardQuestionsAnswerQuestionIdRouteImport
+      parentRoute: typeof DashboardQuestionsRoute
     }
   }
 }
 
+interface DashboardAdminRouteChildren {
+  DashboardAdminCategoriesRoute: typeof DashboardAdminCategoriesRoute
+  DashboardAdminQuestionsRoute: typeof DashboardAdminQuestionsRoute
+  DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
+}
+
+const DashboardAdminRouteChildren: DashboardAdminRouteChildren = {
+  DashboardAdminCategoriesRoute: DashboardAdminCategoriesRoute,
+  DashboardAdminQuestionsRoute: DashboardAdminQuestionsRoute,
+  DashboardAdminIndexRoute: DashboardAdminIndexRoute,
+}
+
+const DashboardAdminRouteWithChildren = DashboardAdminRoute._addFileChildren(
+  DashboardAdminRouteChildren,
+)
+
+interface DashboardQuestionsRouteChildren {
+  DashboardQuestionsBankRoute: typeof DashboardQuestionsBankRoute
+  DashboardQuestionsPracticeRoute: typeof DashboardQuestionsPracticeRoute
+  DashboardQuestionsIndexRoute: typeof DashboardQuestionsIndexRoute
+  DashboardQuestionsAnswerQuestionIdRoute: typeof DashboardQuestionsAnswerQuestionIdRoute
+}
+
+const DashboardQuestionsRouteChildren: DashboardQuestionsRouteChildren = {
+  DashboardQuestionsBankRoute: DashboardQuestionsBankRoute,
+  DashboardQuestionsPracticeRoute: DashboardQuestionsPracticeRoute,
+  DashboardQuestionsIndexRoute: DashboardQuestionsIndexRoute,
+  DashboardQuestionsAnswerQuestionIdRoute:
+    DashboardQuestionsAnswerQuestionIdRoute,
+}
+
+const DashboardQuestionsRouteWithChildren =
+  DashboardQuestionsRoute._addFileChildren(DashboardQuestionsRouteChildren)
+
+interface DashboardRouteChildren {
+  DashboardAdminRoute: typeof DashboardAdminRouteWithChildren
+  DashboardCategoriesRoute: typeof DashboardCategoriesRoute
+  DashboardPerformanceRoute: typeof DashboardPerformanceRoute
+  DashboardPracticeRoute: typeof DashboardPracticeRoute
+  DashboardQuestionsRoute: typeof DashboardQuestionsRouteWithChildren
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAdminRoute: DashboardAdminRouteWithChildren,
+  DashboardCategoriesRoute: DashboardCategoriesRoute,
+  DashboardPerformanceRoute: DashboardPerformanceRoute,
+  DashboardPracticeRoute: DashboardPracticeRoute,
+  DashboardQuestionsRoute: DashboardQuestionsRouteWithChildren,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DemoConvexRoute: DemoConvexRoute,
-  DemoWorkosRoute: DemoWorkosRoute,
-  DemoApiNamesRoute: DemoApiNamesRoute,
-  DemoStartApiRequestRoute: DemoStartApiRequestRoute,
-  DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
-  DemoStartSsrDataOnlyRoute: DemoStartSsrDataOnlyRoute,
-  DemoStartSsrFullSsrRoute: DemoStartSsrFullSsrRoute,
-  DemoStartSsrSpaModeRoute: DemoStartSsrSpaModeRoute,
-  DemoStartSsrIndexRoute: DemoStartSsrIndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

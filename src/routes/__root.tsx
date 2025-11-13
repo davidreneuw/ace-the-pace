@@ -1,4 +1,4 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRoute, useLocation } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
@@ -36,6 +36,9 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+  const isDashboard = location.pathname.startsWith('/dashboard')
+
   return (
     <html lang="en">
       <head>
@@ -44,7 +47,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <WorkOSProvider>
           <ConvexProvider>
-            <Header />
+            {!isDashboard && <Header />}
             {children}
             <TanStackDevtools
               config={{

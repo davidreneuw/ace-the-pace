@@ -8,7 +8,9 @@
  * @module
  */
 
-import type * as todos from "../todos.js";
+import type * as categories from "../categories.js";
+import type * as files from "../files.js";
+import type * as questions from "../questions.js";
 
 import type {
   ApiFromModules,
@@ -25,7 +27,9 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  todos: typeof todos;
+  categories: typeof categories;
+  files: typeof files;
+  questions: typeof questions;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 
