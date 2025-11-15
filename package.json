@@ -17,6 +17,8 @@
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.14.1",
     "@convex-dev/react-query": "0.0.0-alpha.11",
+    "@convex-dev/workos": "^0.0.1",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",
     "@tanstack/react-router": "^1.132.0",

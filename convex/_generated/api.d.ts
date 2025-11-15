@@ -11,6 +11,8 @@
 import type * as categories from "../categories.js";
 import type * as files from "../files.js";
 import type * as questions from "../questions.js";
+import type * as userAnswers from "../userAnswers.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -30,6 +32,8 @@ declare const fullApi: ApiFromModules<{
   categories: typeof categories;
   files: typeof files;
   questions: typeof questions;
+  userAnswers: typeof userAnswers;
+  users: typeof users;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 

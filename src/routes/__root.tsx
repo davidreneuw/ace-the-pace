@@ -9,11 +9,11 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { useAuth } from '@workos-inc/authkit-react'
 import { useEffect } from 'react'
 
-import WorkOSProvider from '../integrations/workos/provider'
 import ConvexProvider from '../integrations/convex/provider'
+import WorkOSProvider from '../integrations/workos/provider'
 
-import appCss from '../styles.css?url'
 import { router } from '../router'
+import appCss from '../styles.css?url'
 
 // Define router context interface for type-safe auth state
 export interface RouterContext {

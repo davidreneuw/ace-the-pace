@@ -1,3 +1,8 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Link } from '@tanstack/react-router'
 import { useAuth } from '@workos-inc/authkit-react'
 import {
@@ -14,6 +19,7 @@ import {
   Settings,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { useIsAdmin } from '../hooks/useIsAdmin'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
@@ -40,6 +46,7 @@ export default function DashboardSidebar() {
   const userMenuRef = useRef<HTMLDivElement>(null)
 
   const { user, signOut } = useAuth()
+  const { isAdmin } = useIsAdmin()
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -135,51 +142,89 @@ export default function DashboardSidebar() {
           </div>
           {/* Navigation items */}
           <nav className="flex-1 p-4 space-y-2 overflow-y-auto overflow-x-hidden">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                onClick={() => setIsMobileOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground cursor-pointer"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium',
-                }}
-                activeOptions={{
-                  exact: item.href === '/dashboard',
-                }}
-              >
-                <item.icon size={20} className="flex-shrink-0" />
-                <span
-                  className={`text-sm whitespace-nowrap transition-opacity ${isCollapsed ? 'opacity-0' : 'opacity-100'
-                    }`}
+            {navigation.map((item) => {
+              const linkContent = (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setIsMobileOpen(false)}
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground cursor-pointer"
+                  activeProps={{
+                    className:
+                      'flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium',
+                  }}
+                  activeOptions={{
+                    exact: item.href === '/dashboard',
+                  }}
                 >
-                  {item.name}
-                </span>
-              </Link>
-            ))}
+                  <item.icon size={20} className="flex-shrink-0" />
+                  <span
+                    className={`text-sm whitespace-nowrap transition-opacity ${isCollapsed ? 'opacity-0' : 'opacity-100'
+                      }`}
+                  >
+                    {item.name}
+                  </span>
+                </Link>
+              )
+
+              return isCollapsed ? (
+                <Tooltip key={item.name}>
+                  <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
+                  <TooltipContent
+                    side="right"
+                    sideOffset={10}
+                    className="bg-white text-foreground text-sm px-3 py-2 border border-border shadow-lg"
+                  >
+                    {item.name}
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                linkContent
+              )
+            })}
           </nav>
 
-          {/* Admin Panel - At Bottom */}
-          <div className="p-4 border-border flex-shrink-0">
-            <Link
-              to={adminNavigation.href}
-              onClick={() => setIsMobileOpen(false)}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground cursor-pointer"
-              activeProps={{
-                className:
-                  'flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium',
-              }}
-            >
-              <adminNavigation.icon size={20} className="flex-shrink-0" />
-              <span
-                className={`text-sm whitespace-nowrap transition-opacity ${isCollapsed ? 'opacity-0' : 'opacity-100'
-                  }`}
-              >
-                {adminNavigation.name}
-              </span>
-            </Link>
-          </div>
+          {/* Admin Panel - At Bottom (only for admins) */}
+          {isAdmin && (
+            <div className="p-4 border-border flex-shrink-0">
+              {(() => {
+                const adminLinkContent = (
+                  <Link
+                    to={adminNavigation.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground cursor-pointer"
+                    activeProps={{
+                      className:
+                        'flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium',
+                    }}
+                  >
+                    <adminNavigation.icon size={20} className="flex-shrink-0" />
+                    <span
+                      className={`text-sm whitespace-nowrap transition-opacity ${isCollapsed ? 'opacity-0' : 'opacity-100'
+                        }`}
+                    >
+                      {adminNavigation.name}
+                    </span>
+                  </Link>
+                )
+
+                return isCollapsed ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>{adminLinkContent}</TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      sideOffset={10}
+                      className="bg-white text-foreground text-sm px-3 py-2 border border-border shadow-lg"
+                    >
+                      {adminNavigation.name}
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  adminLinkContent
+                )
+              })()}
+            </div>
+          )}
 
           {/* User Section */}
           {user && (
@@ -191,8 +236,8 @@ export default function DashboardSidebar() {
               {isUserMenuOpen && (
                 <div
                   className={`bg-card border border-border rounded-lg shadow-lg overflow-hidden z-50 ${isCollapsed
-                      ? 'fixed left-[5.5rem] bottom-5'
-                      : 'absolute bottom-full left-4 right-4 mb-2'
+                    ? 'fixed left-[5.5rem] bottom-5'
+                    : 'absolute bottom-full left-4 right-4 mb-2'
                     }`}
                 >
                   <button
@@ -222,8 +267,8 @@ export default function DashboardSidebar() {
                 )}
                 <div
                   className={`flex-1 text-left min-w-0 transition-all overflow-hidden ${isCollapsed
-                      ? 'opacity-0 pointer-events-none w-0 min-w-0'
-                      : 'opacity-100'
+                    ? 'opacity-0 pointer-events-none w-0 min-w-0'
+                    : 'opacity-100'
                     }`}
                 >
                   <p className="text-sm font-medium text-foreground truncate whitespace-nowrap">

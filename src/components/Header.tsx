@@ -1,9 +1,10 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 import { useAuth } from '@workos-inc/authkit-react'
 import { GraduationCap } from 'lucide-react'
 
 export default function Header() {
-  const { signIn } = useAuth()
+  const { user, signIn } = useAuth()
+  const router = useRouter()
 
   return (
     <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -22,7 +23,11 @@ export default function Header() {
           <button
             onClick={() => {
               const returnTo = '/dashboard'
-              signIn({ state: { returnTo } })
+              if (user) {
+                router.navigate({ to: returnTo })
+              } else {
+                signIn({ state: { returnTo } })
+              }
             }}
             className="px-4 py-2 text-sm bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >

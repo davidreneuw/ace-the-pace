@@ -462,21 +462,21 @@ function QuestionBankPage() {
                 Difficulty
               </label>
               <div className="flex flex-wrap gap-2">
-                {(['all', 'easy', 'medium', 'hard'] as Array<DifficultyFilter>).map(
-                  (diff) => (
-                    <button
-                      key={diff}
-                      onClick={() => setDifficultyFilter(diff)}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
-                        difficultyFilter === diff
-                          ? 'bg-primary text-primary-foreground border-primary'
-                          : 'bg-background text-foreground border-border hover:border-primary/50'
-                      }`}
-                    >
-                      {diff.charAt(0).toUpperCase() + diff.slice(1)}
-                    </button>
-                  ),
-                )}
+                {(
+                  ['all', 'easy', 'medium', 'hard'] as Array<DifficultyFilter>
+                ).map((diff) => (
+                  <button
+                    key={diff}
+                    onClick={() => setDifficultyFilter(diff)}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
+                      difficultyFilter === diff
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-background text-foreground border-border hover:border-primary/50'
+                    }`}
+                  >
+                    {diff.charAt(0).toUpperCase() + diff.slice(1)}
+                  </button>
+                ))}
               </div>
             </div>
 

@@ -50,7 +50,7 @@ function WorkOSProviderWithRouter({ children }: { children: React.ReactNode }) {
         }
 
         setTimeout(() => {
-          router.navigate({ to: returnTo as any })
+          router.navigate({ to: returnTo })
         }, 0)
       }}
     >

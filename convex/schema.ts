@@ -2,6 +2,13 @@ import { defineSchema, defineTable } from 'convex/server'
 import { v } from 'convex/values'
 
 export default defineSchema({
+  // Users table for role-based access control
+  users: defineTable({
+    workosUserId: v.string(), // WorkOS user ID (unique identifier)
+    displayName: v.string(), // User's display name
+    roles: v.array(v.string()), // User roles (e.g., ["admin"])
+    metadata: v.optional(v.any()), // Flexible field for future extensions
+  }).index('workosUserId', ['workosUserId']),
   // Categories for organizing questions
   categories: defineTable({
     name: v.string(), // "Cardiology"
@@ -49,4 +56,17 @@ export default defineSchema({
     // Order
     order: v.number(), // Display order (0, 1, 2, 3)
   }).index('questionId', ['questionId']),
+
+  // User answers/attempts - tracks individual question responses
+  userAnswers: defineTable({
+    userId: v.id('users'), // User who answered
+    questionId: v.id('questions'), // Question answered
+    selectedAnswerId: v.id('answerChoices'), // Answer choice selected
+    isCorrect: v.boolean(), // Whether the answer was correct
+    timeSpentMs: v.optional(v.number()), // Time spent on question in milliseconds
+    // Future: sessionId will link to practice sessions table
+  })
+    .index('userId', ['userId'])
+    .index('questionId', ['questionId'])
+    .index('by_user_and_question', ['userId', 'questionId']),
 })

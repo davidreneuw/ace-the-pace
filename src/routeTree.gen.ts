@@ -20,6 +20,7 @@ import { Route as AuthenticatedDashboardPracticeIndexRouteImport } from './route
 import { Route as AuthenticatedDashboardPerformanceIndexRouteImport } from './routes/_authenticated/dashboard/performance/index'
 import { Route as AuthenticatedDashboardCategoriesIndexRouteImport } from './routes/_authenticated/dashboard/categories/index'
 import { Route as AuthenticatedDashboardAdminIndexRouteImport } from './routes/_authenticated/dashboard/admin/index'
+import { Route as AuthenticatedDashboardAdminUsersRouteImport } from './routes/_authenticated/dashboard/admin/users'
 import { Route as AuthenticatedDashboardAdminQuestionsRouteImport } from './routes/_authenticated/dashboard/admin/questions'
 import { Route as AuthenticatedDashboardAdminCategoriesRouteImport } from './routes/_authenticated/dashboard/admin/categories'
 import { Route as AuthenticatedDashboardQuestionsAnswerQuestionIdRouteImport } from './routes/_authenticated/dashboard/questions/answer.$questionId'
@@ -85,6 +86,12 @@ const AuthenticatedDashboardAdminIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedDashboardAdminRoute,
   } as any)
+const AuthenticatedDashboardAdminUsersRoute =
+  AuthenticatedDashboardAdminUsersRouteImport.update({
+    id: '/users',
+    path: '/users',
+    getParentRoute: () => AuthenticatedDashboardAdminRoute,
+  } as any)
 const AuthenticatedDashboardAdminQuestionsRoute =
   AuthenticatedDashboardAdminQuestionsRouteImport.update({
     id: '/questions',
@@ -112,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/admin/categories': typeof AuthenticatedDashboardAdminCategoriesRoute
   '/dashboard/admin/questions': typeof AuthenticatedDashboardAdminQuestionsRoute
+  '/dashboard/admin/users': typeof AuthenticatedDashboardAdminUsersRoute
   '/dashboard/admin/': typeof AuthenticatedDashboardAdminIndexRoute
   '/dashboard/categories': typeof AuthenticatedDashboardCategoriesIndexRoute
   '/dashboard/performance': typeof AuthenticatedDashboardPerformanceIndexRoute
@@ -125,6 +133,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/admin/categories': typeof AuthenticatedDashboardAdminCategoriesRoute
   '/dashboard/admin/questions': typeof AuthenticatedDashboardAdminQuestionsRoute
+  '/dashboard/admin/users': typeof AuthenticatedDashboardAdminUsersRoute
   '/dashboard/admin': typeof AuthenticatedDashboardAdminIndexRoute
   '/dashboard/categories': typeof AuthenticatedDashboardCategoriesIndexRoute
   '/dashboard/performance': typeof AuthenticatedDashboardPerformanceIndexRoute
@@ -142,6 +151,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/dashboard/admin/categories': typeof AuthenticatedDashboardAdminCategoriesRoute
   '/_authenticated/dashboard/admin/questions': typeof AuthenticatedDashboardAdminQuestionsRoute
+  '/_authenticated/dashboard/admin/users': typeof AuthenticatedDashboardAdminUsersRoute
   '/_authenticated/dashboard/admin/': typeof AuthenticatedDashboardAdminIndexRoute
   '/_authenticated/dashboard/categories/': typeof AuthenticatedDashboardCategoriesIndexRoute
   '/_authenticated/dashboard/performance/': typeof AuthenticatedDashboardPerformanceIndexRoute
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/admin/categories'
     | '/dashboard/admin/questions'
+    | '/dashboard/admin/users'
     | '/dashboard/admin/'
     | '/dashboard/categories'
     | '/dashboard/performance'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/admin/categories'
     | '/dashboard/admin/questions'
+    | '/dashboard/admin/users'
     | '/dashboard/admin'
     | '/dashboard/categories'
     | '/dashboard/performance'
@@ -188,6 +200,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/'
     | '/_authenticated/dashboard/admin/categories'
     | '/_authenticated/dashboard/admin/questions'
+    | '/_authenticated/dashboard/admin/users'
     | '/_authenticated/dashboard/admin/'
     | '/_authenticated/dashboard/categories/'
     | '/_authenticated/dashboard/performance/'
@@ -281,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardAdminIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardAdminRoute
     }
+    '/_authenticated/dashboard/admin/users': {
+      id: '/_authenticated/dashboard/admin/users'
+      path: '/users'
+      fullPath: '/dashboard/admin/users'
+      preLoaderRoute: typeof AuthenticatedDashboardAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedDashboardAdminRoute
+    }
     '/_authenticated/dashboard/admin/questions': {
       id: '/_authenticated/dashboard/admin/questions'
       path: '/questions'
@@ -308,6 +328,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedDashboardAdminRouteChildren {
   AuthenticatedDashboardAdminCategoriesRoute: typeof AuthenticatedDashboardAdminCategoriesRoute
   AuthenticatedDashboardAdminQuestionsRoute: typeof AuthenticatedDashboardAdminQuestionsRoute
+  AuthenticatedDashboardAdminUsersRoute: typeof AuthenticatedDashboardAdminUsersRoute
   AuthenticatedDashboardAdminIndexRoute: typeof AuthenticatedDashboardAdminIndexRoute
 }
 
@@ -317,6 +338,8 @@ const AuthenticatedDashboardAdminRouteChildren: AuthenticatedDashboardAdminRoute
       AuthenticatedDashboardAdminCategoriesRoute,
     AuthenticatedDashboardAdminQuestionsRoute:
       AuthenticatedDashboardAdminQuestionsRoute,
+    AuthenticatedDashboardAdminUsersRoute:
+      AuthenticatedDashboardAdminUsersRoute,
     AuthenticatedDashboardAdminIndexRoute:
       AuthenticatedDashboardAdminIndexRoute,
   }

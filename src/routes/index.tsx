@@ -1,4 +1,5 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import Header from '@/components/Header'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useAuth } from '@workos-inc/authkit-react'
 import {
   BookOpen,
@@ -9,28 +10,14 @@ import {
   Target,
   TrendingUp,
 } from 'lucide-react'
-import { z } from 'zod'
-import Header from '@/components/Header'
-
-// Validate search params
-const homeSearchSchema = z.object({
-  returnTo: z.string().optional(),
-})
 
 export const Route = createFileRoute('/')({
-  validateSearch: homeSearchSchema,
-  beforeLoad: ({ context, search }) => {
-    // If already authenticated and there's a returnTo, redirect immediately
-    if (context.auth.user && search.returnTo) {
-      throw redirect({ to: search.returnTo as any })
-    }
-  },
   component: App,
 })
 
 function App() {
-  const { signIn } = useAuth()
-  const search = Route.useSearch()
+  const { user, signIn } = useAuth()
+  const router = useRouter()
   const features = [
     {
       icon: <BookOpen className="w-12 h-12 text-primary" />,
@@ -94,8 +81,12 @@ function App() {
               <button
                 onClick={() => {
                   // Use returnTo from query params, or default to /dashboard
-                  const returnTo = search.returnTo || '/dashboard'
-                  signIn({ state: { returnTo } })
+                  const returnTo = '/dashboard'
+                  if (user) {
+                    router.navigate({ to: returnTo })
+                  } else {
+                    signIn({ state: { returnTo } })
+                  }
                 }}
                 className="px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors shadow-lg cursor-pointer"
               >
