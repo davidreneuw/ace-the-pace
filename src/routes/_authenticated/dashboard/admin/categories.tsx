@@ -1,11 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery, useMutation } from 'convex/react'
-import { api } from '../../../../convex/_generated/api'
+import { useMutation, useQuery } from 'convex/react'
 import { useState } from 'react'
-import { Id } from '../../../../convex/_generated/dataModel'
-import { Plus, Edit, Trash2 } from 'lucide-react'
+import { Edit, Plus, Trash2 } from 'lucide-react'
+import { api } from '../../../../../convex/_generated/api'
+import type { Id } from '../../../../../convex/_generated/dataModel'
 
-export const Route = createFileRoute('/dashboard/admin/categories')({
+export const Route = createFileRoute(
+  '/_authenticated/dashboard/admin/categories',
+)({
   component: CategoryManagement,
 })
 
@@ -50,7 +52,10 @@ function CategoryManagement() {
 
   // Count questions per category
   const getQuestionCount = (categoryId: Id<'categories'>) => {
-    return allQuestions?.filter((q) => q.categoryIds.includes(categoryId)).length || 0
+    return (
+      allQuestions?.filter((q) => q.categoryIds.includes(categoryId)).length ||
+      0
+    )
   }
 
   // Load selected category into form
@@ -157,7 +162,9 @@ function CategoryManagement() {
       <div className="w-2/5 border-r border-border flex flex-col overflow-hidden">
         <div className="p-4 border-b border-border bg-card flex-shrink-0">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-lg font-semibold text-foreground">Categories</h2>
+            <h2 className="text-lg font-semibold text-foreground">
+              Categories
+            </h2>
             <button
               onClick={handleNewCategory}
               className="flex items-center gap-2 px-3 py-1.5 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium rounded-lg transition-colors cursor-pointer"
@@ -173,7 +180,9 @@ function CategoryManagement() {
 
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {categoriesLoading && (
-            <div className="text-center py-8 text-muted-foreground">Loading...</div>
+            <div className="text-center py-8 text-muted-foreground">
+              Loading...
+            </div>
           )}
           {!categoriesLoading && categories?.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
@@ -204,7 +213,9 @@ function CategoryManagement() {
                       <p className="text-sm font-medium text-foreground">
                         {category.name}
                       </p>
-                      <p className="text-xs text-muted-foreground">{category.slug}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {category.slug}
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-1 flex-shrink-0">
@@ -244,114 +255,127 @@ function CategoryManagement() {
       {/* Right Panel - Category Form */}
       <div className="w-3/5 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-y-auto p-6">
-        <h2 className="text-xl font-semibold text-foreground mb-6">
-          {formData.id ? 'Edit Category' : 'New Category'}
-        </h2>
+          <h2 className="text-xl font-semibold text-foreground mb-6">
+            {formData.id ? 'Edit Category' : 'New Category'}
+          </h2>
 
-        <div className="space-y-6 max-w-xl">
-          {/* Name */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Name *
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => handleNameChange(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="e.g., Cardiology"
-            />
-          </div>
-
-          {/* Slug */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Slug * (URL-friendly)
-            </label>
-            <input
-              type="text"
-              value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="e.g., cardiology"
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Auto-generated from name, but you can edit it
-            </p>
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Description (optional)
-            </label>
-            <textarea
-              value={formData.description || ''}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value || undefined })
-              }
-              rows={3}
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Brief description of this category..."
-            />
-          </div>
-
-          {/* Color */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Color (optional)
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="color"
-                value={formData.color || '#3b82f6'}
-                onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                className="h-10 w-16 border border-border rounded cursor-pointer"
-              />
+          <div className="space-y-6 max-w-xl">
+            {/* Name */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Name *
+              </label>
               <input
                 type="text"
-                value={formData.color || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, color: e.target.value || undefined })
-                }
-                className="flex-1 px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="#3b82f6"
+                value={formData.name}
+                onChange={(e) => handleNameChange(e.target.value)}
+                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="e.g., Cardiology"
               />
             </div>
-          </div>
 
-          {/* Icon Storage ID */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Icon Storage ID (optional)
-            </label>
-            <input
-              type="text"
-              value={formData.iconStorageId || ''}
-              onChange={(e) =>
-                setFormData({ ...formData, iconStorageId: e.target.value || undefined })
-              }
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Storage ID for category icon"
-            />
-          </div>
+            {/* Slug */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Slug * (URL-friendly)
+              </label>
+              <input
+                type="text"
+                value={formData.slug}
+                onChange={(e) =>
+                  setFormData({ ...formData, slug: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="e.g., cardiology"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Auto-generated from name, but you can edit it
+              </p>
+            </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-3 pt-4 border-t border-border">
-            <button
-              onClick={handleSave}
-              className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors cursor-pointer"
-            >
-              {formData.id ? 'Update Category' : 'Create Category'}
-            </button>
-            <button
-              onClick={handleNewCategory}
-              className="px-6 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Description (optional)
+              </label>
+              <textarea
+                value={formData.description || ''}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    description: e.target.value || undefined,
+                  })
+                }
+                rows={3}
+                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Brief description of this category..."
+              />
+            </div>
+
+            {/* Color */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Color (optional)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="color"
+                  value={formData.color || '#3b82f6'}
+                  onChange={(e) =>
+                    setFormData({ ...formData, color: e.target.value })
+                  }
+                  className="h-10 w-16 border border-border rounded cursor-pointer"
+                />
+                <input
+                  type="text"
+                  value={formData.color || ''}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      color: e.target.value || undefined,
+                    })
+                  }
+                  className="flex-1 px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="#3b82f6"
+                />
+              </div>
+            </div>
+
+            {/* Icon Storage ID */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Icon Storage ID (optional)
+              </label>
+              <input
+                type="text"
+                value={formData.iconStorageId || ''}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    iconStorageId: e.target.value || undefined,
+                  })
+                }
+                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Storage ID for category icon"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4 border-t border-border">
+              <button
+                onClick={handleSave}
+                className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors cursor-pointer"
+              >
+                {formData.id ? 'Update Category' : 'Create Category'}
+              </button>
+              <button
+                onClick={handleNewCategory}
+                className="px-6 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>

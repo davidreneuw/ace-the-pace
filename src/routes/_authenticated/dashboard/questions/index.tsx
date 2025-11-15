@@ -1,12 +1,20 @@
-
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useQuery } from 'convex/react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Filter, Play, Search, X } from 'lucide-react'
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Filter,
+  Play,
+  Search,
+  X,
+} from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import { api } from '../../../../convex/_generated/api'
-import { Id } from '../../../../convex/_generated/dataModel'
+import { api } from '../../../../../convex/_generated/api'
+import type { Id } from '../../../../../convex/_generated/dataModel'
 
-export const Route = createFileRoute('/dashboard/questions/')({
+export const Route = createFileRoute('/_authenticated/dashboard/questions/')({
   component: QuestionBankPage,
   validateSearch: (search: Record<string, unknown>) => {
     return {
@@ -24,11 +32,13 @@ function QuestionBankPage() {
   const navigate = Route.useNavigate()
 
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategories, setSelectedCategories] = useState<Set<Id<'categories'>>>(
-    new Set(),
-  )
-  const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all')
-  const [expandedQuestion, setExpandedQuestion] = useState<Id<'questions'> | null>(null)
+  const [selectedCategories, setSelectedCategories] = useState<
+    Set<Id<'categories'>>
+  >(new Set())
+  const [difficultyFilter, setDifficultyFilter] =
+    useState<DifficultyFilter>('all')
+  const [expandedQuestion, setExpandedQuestion] =
+    useState<Id<'questions'> | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
 
   // Queries
@@ -127,12 +137,12 @@ function QuestionBankPage() {
   }
 
   // Get category names for a question
-  const getCategoryNames = (categoryIds: Id<'categories'>[]) => {
+  const getCategoryNames = (categoryIds: Array<Id<'categories'>>) => {
     if (!categories) return []
     return categoryIds
       .map((id) => categories.find((c) => c._id === id))
       .filter((c) => c !== undefined)
-      .map((c) => c!.name)
+      .map((c) => c.name)
   }
 
   // Difficulty badge colors
@@ -154,7 +164,9 @@ function QuestionBankPage() {
       {/* Header - like dashboard */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Question Bank</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Question Bank
+          </h1>
           <p className="text-muted-foreground">
             Browse and search through all available questions
           </p>
@@ -188,8 +200,9 @@ function QuestionBankPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search questions..."
-              className={`w-full pl-10 pr-10 py-2.5 border rounded-lg bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary ${searchQuery.trim() ? 'border-primary' : 'border-border'
-                }`}
+              className={`w-full pl-10 pr-10 py-2.5 border rounded-lg bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary ${
+                searchQuery.trim() ? 'border-primary' : 'border-border'
+              }`}
             />
             {searchQuery && (
               <button
@@ -206,7 +219,8 @@ function QuestionBankPage() {
           {filteredQuestions.length > 0 && (
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                Showing {startIndex + 1}-{Math.min(endIndex, filteredQuestions.length)} of{' '}
+                Showing {startIndex + 1}-
+                {Math.min(endIndex, filteredQuestions.length)} of{' '}
                 {filteredQuestions.length} questions
               </div>
               <div className="flex items-center gap-2">
@@ -221,42 +235,53 @@ function QuestionBankPage() {
 
                 {/* Page numbers */}
                 <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                    // Show first page, last page, current page, and pages around current
-                    const showPage =
-                      page === 1 ||
-                      page === totalPages ||
-                      (page >= currentPage - 1 && page <= currentPage + 1)
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => {
+                      // Show first page, last page, current page, and pages around current
+                      const showPage =
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
 
-                    if (!showPage) {
-                      // Show ellipsis
-                      if (page === currentPage - 2 || page === currentPage + 2) {
-                        return (
-                          <span key={page} className="px-2 text-muted-foreground">
-                            ...
-                          </span>
-                        )
+                      if (!showPage) {
+                        // Show ellipsis
+                        if (
+                          page === currentPage - 2 ||
+                          page === currentPage + 2
+                        ) {
+                          return (
+                            <span
+                              key={page}
+                              className="px-2 text-muted-foreground"
+                            >
+                              ...
+                            </span>
+                          )
+                        }
+                        return null
                       }
-                      return null
-                    }
 
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${currentPage === page
-                          ? 'bg-primary text-primary-foreground font-medium'
-                          : 'border border-border hover:bg-muted'
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+                            currentPage === page
+                              ? 'bg-primary text-primary-foreground font-medium'
+                              : 'border border-border hover:bg-muted'
                           }`}
-                      >
-                        {page}
-                      </button>
-                    )
-                  })}
+                        >
+                          {page}
+                        </button>
+                      )
+                    },
+                  )}
                 </div>
 
                 <button
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  onClick={() =>
+                    setCurrentPage((p) => Math.min(totalPages, p + 1))
+                  }
                   disabled={currentPage === totalPages}
                   className="px-3 py-2 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Next page"
@@ -315,9 +340,15 @@ function QuestionBankPage() {
                         </p>
                       </div>
                       {isExpanded ? (
-                        <ChevronUp size={20} className="text-muted-foreground flex-shrink-0" />
+                        <ChevronUp
+                          size={20}
+                          className="text-muted-foreground flex-shrink-0"
+                        />
                       ) : (
-                        <ChevronDown size={20} className="text-muted-foreground flex-shrink-0" />
+                        <ChevronDown
+                          size={20}
+                          className="text-muted-foreground flex-shrink-0"
+                        />
                       )}
                     </div>
 
@@ -374,29 +405,29 @@ function QuestionBankPage() {
                       {(question.imageStorageId ||
                         question.audioStorageId ||
                         question.videoStorageId) && (
-                          <div className="mt-4 pt-4 border-t border-border">
-                            <h4 className="text-sm font-semibold text-foreground mb-2">
-                              Attached Media
-                            </h4>
-                            <div className="flex gap-2 text-xs text-muted-foreground">
-                              {question.imageStorageId && (
-                                <span className="px-2 py-1 bg-background rounded border border-border">
-                                  Image
-                                </span>
-                              )}
-                              {question.audioStorageId && (
-                                <span className="px-2 py-1 bg-background rounded border border-border">
-                                  Audio
-                                </span>
-                              )}
-                              {question.videoStorageId && (
-                                <span className="px-2 py-1 bg-background rounded border border-border">
-                                  Video
-                                </span>
-                              )}
-                            </div>
+                        <div className="mt-4 pt-4 border-t border-border">
+                          <h4 className="text-sm font-semibold text-foreground mb-2">
+                            Attached Media
+                          </h4>
+                          <div className="flex gap-2 text-xs text-muted-foreground">
+                            {question.imageStorageId && (
+                              <span className="px-2 py-1 bg-background rounded border border-border">
+                                Image
+                              </span>
+                            )}
+                            {question.audioStorageId && (
+                              <span className="px-2 py-1 bg-background rounded border border-border">
+                                Audio
+                              </span>
+                            )}
+                            {question.videoStorageId && (
+                              <span className="px-2 py-1 bg-background rounded border border-border">
+                                Video
+                              </span>
+                            )}
                           </div>
-                        )}
+                        </div>
+                      )}
 
                       {/* Practice Button */}
                       <div className="mt-4 pt-4 border-t border-border">
@@ -431,18 +462,21 @@ function QuestionBankPage() {
                 Difficulty
               </label>
               <div className="flex flex-wrap gap-2">
-                {(['all', 'easy', 'medium', 'hard'] as DifficultyFilter[]).map((diff) => (
-                  <button
-                    key={diff}
-                    onClick={() => setDifficultyFilter(diff)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${difficultyFilter === diff
-                      ? 'bg-primary text-primary-foreground border-primary'
-                      : 'bg-background text-foreground border-border hover:border-primary/50'
+                {(['all', 'easy', 'medium', 'hard'] as Array<DifficultyFilter>).map(
+                  (diff) => (
+                    <button
+                      key={diff}
+                      onClick={() => setDifficultyFilter(diff)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
+                        difficultyFilter === diff
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-background text-foreground border-border hover:border-primary/50'
                       }`}
-                  >
-                    {diff.charAt(0).toUpperCase() + diff.slice(1)}
-                  </button>
-                ))}
+                    >
+                      {diff.charAt(0).toUpperCase() + diff.slice(1)}
+                    </button>
+                  ),
+                )}
               </div>
             </div>
 
@@ -455,7 +489,9 @@ function QuestionBankPage() {
                 <div className="text-sm text-muted-foreground">Loading...</div>
               )}
               {!categoriesLoading && categories?.length === 0 && (
-                <div className="text-sm text-muted-foreground">No categories available</div>
+                <div className="text-sm text-muted-foreground">
+                  No categories available
+                </div>
               )}
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {categories?.map((category) => (
@@ -476,7 +512,9 @@ function QuestionBankPage() {
                           style={{ backgroundColor: category.color }}
                         />
                       )}
-                      <span className="text-sm text-foreground">{category.name}</span>
+                      <span className="text-sm text-foreground">
+                        {category.name}
+                      </span>
                     </div>
                   </label>
                 ))}
@@ -489,20 +527,20 @@ function QuestionBankPage() {
                 difficultyFilter !== 'all' ||
                 searchQuery.trim() ||
                 urlCategory) && (
-                  <button
-                    onClick={() => {
-                      setSelectedCategories(new Set())
-                      setDifficultyFilter('all')
-                      setSearchQuery('')
-                      if (urlCategory) {
-                        navigate({ search: { category: undefined } })
-                      }
-                    }}
-                    className="text-sm text-primary hover:underline cursor-pointer"
-                  >
-                    Clear all filters
-                  </button>
-                )}
+                <button
+                  onClick={() => {
+                    setSelectedCategories(new Set())
+                    setDifficultyFilter('all')
+                    setSearchQuery('')
+                    if (urlCategory) {
+                      navigate({ search: { category: undefined } })
+                    }
+                  }}
+                  className="text-sm text-primary hover:underline cursor-pointer"
+                >
+                  Clear all filters
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -510,4 +548,3 @@ function QuestionBankPage() {
     </div>
   )
 }
-

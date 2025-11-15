@@ -9,28 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CallbackRouteImport } from './routes/callback'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as DashboardAdminRouteImport } from './routes/dashboard/admin'
-import { Route as DashboardQuestionsIndexRouteImport } from './routes/dashboard/questions/index'
-import { Route as DashboardPracticeIndexRouteImport } from './routes/dashboard/practice/index'
-import { Route as DashboardPerformanceIndexRouteImport } from './routes/dashboard/performance/index'
-import { Route as DashboardCategoriesIndexRouteImport } from './routes/dashboard/categories/index'
-import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
-import { Route as DashboardAdminQuestionsRouteImport } from './routes/dashboard/admin/questions'
-import { Route as DashboardAdminCategoriesRouteImport } from './routes/dashboard/admin/categories'
-import { Route as DashboardQuestionsAnswerQuestionIdRouteImport } from './routes/dashboard/questions/answer.$questionId'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
+import { Route as AuthenticatedDashboardAdminRouteImport } from './routes/_authenticated/dashboard/admin'
+import { Route as AuthenticatedDashboardQuestionsIndexRouteImport } from './routes/_authenticated/dashboard/questions/index'
+import { Route as AuthenticatedDashboardPracticeIndexRouteImport } from './routes/_authenticated/dashboard/practice/index'
+import { Route as AuthenticatedDashboardPerformanceIndexRouteImport } from './routes/_authenticated/dashboard/performance/index'
+import { Route as AuthenticatedDashboardCategoriesIndexRouteImport } from './routes/_authenticated/dashboard/categories/index'
+import { Route as AuthenticatedDashboardAdminIndexRouteImport } from './routes/_authenticated/dashboard/admin/index'
+import { Route as AuthenticatedDashboardAdminQuestionsRouteImport } from './routes/_authenticated/dashboard/admin/questions'
+import { Route as AuthenticatedDashboardAdminCategoriesRouteImport } from './routes/_authenticated/dashboard/admin/categories'
+import { Route as AuthenticatedDashboardQuestionsAnswerQuestionIdRouteImport } from './routes/_authenticated/dashboard/questions/answer.$questionId'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CallbackRoute = CallbackRouteImport.update({
   id: '/callback',
   path: '/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -38,104 +38,116 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardRoute,
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
-const DashboardAdminRoute = DashboardAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardQuestionsIndexRoute = DashboardQuestionsIndexRouteImport.update({
-  id: '/questions/',
-  path: '/questions/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardPracticeIndexRoute = DashboardPracticeIndexRouteImport.update({
-  id: '/practice/',
-  path: '/practice/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardPerformanceIndexRoute =
-  DashboardPerformanceIndexRouteImport.update({
+const AuthenticatedDashboardIndexRoute =
+  AuthenticatedDashboardIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardAdminRoute =
+  AuthenticatedDashboardAdminRouteImport.update({
+    id: '/admin',
+    path: '/admin',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardQuestionsIndexRoute =
+  AuthenticatedDashboardQuestionsIndexRouteImport.update({
+    id: '/questions/',
+    path: '/questions/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardPracticeIndexRoute =
+  AuthenticatedDashboardPracticeIndexRouteImport.update({
+    id: '/practice/',
+    path: '/practice/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardPerformanceIndexRoute =
+  AuthenticatedDashboardPerformanceIndexRouteImport.update({
     id: '/performance/',
     path: '/performance/',
-    getParentRoute: () => DashboardRoute,
+    getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
-const DashboardCategoriesIndexRoute =
-  DashboardCategoriesIndexRouteImport.update({
+const AuthenticatedDashboardCategoriesIndexRoute =
+  AuthenticatedDashboardCategoriesIndexRouteImport.update({
     id: '/categories/',
     path: '/categories/',
-    getParentRoute: () => DashboardRoute,
+    getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
-const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardAdminRoute,
-} as any)
-const DashboardAdminQuestionsRoute = DashboardAdminQuestionsRouteImport.update({
-  id: '/questions',
-  path: '/questions',
-  getParentRoute: () => DashboardAdminRoute,
-} as any)
-const DashboardAdminCategoriesRoute =
-  DashboardAdminCategoriesRouteImport.update({
+const AuthenticatedDashboardAdminIndexRoute =
+  AuthenticatedDashboardAdminIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardAdminRoute,
+  } as any)
+const AuthenticatedDashboardAdminQuestionsRoute =
+  AuthenticatedDashboardAdminQuestionsRouteImport.update({
+    id: '/questions',
+    path: '/questions',
+    getParentRoute: () => AuthenticatedDashboardAdminRoute,
+  } as any)
+const AuthenticatedDashboardAdminCategoriesRoute =
+  AuthenticatedDashboardAdminCategoriesRouteImport.update({
     id: '/categories',
     path: '/categories',
-    getParentRoute: () => DashboardAdminRoute,
+    getParentRoute: () => AuthenticatedDashboardAdminRoute,
   } as any)
-const DashboardQuestionsAnswerQuestionIdRoute =
-  DashboardQuestionsAnswerQuestionIdRouteImport.update({
+const AuthenticatedDashboardQuestionsAnswerQuestionIdRoute =
+  AuthenticatedDashboardQuestionsAnswerQuestionIdRouteImport.update({
     id: '/questions/answer/$questionId',
     path: '/questions/answer/$questionId',
-    getParentRoute: () => DashboardRoute,
+    getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/callback': typeof CallbackRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/admin': typeof DashboardAdminRouteWithChildren
-  '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
-  '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
-  '/dashboard/admin/': typeof DashboardAdminIndexRoute
-  '/dashboard/categories': typeof DashboardCategoriesIndexRoute
-  '/dashboard/performance': typeof DashboardPerformanceIndexRoute
-  '/dashboard/practice': typeof DashboardPracticeIndexRoute
-  '/dashboard/questions': typeof DashboardQuestionsIndexRoute
-  '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
+  '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/dashboard/admin': typeof AuthenticatedDashboardAdminRouteWithChildren
+  '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/admin/categories': typeof AuthenticatedDashboardAdminCategoriesRoute
+  '/dashboard/admin/questions': typeof AuthenticatedDashboardAdminQuestionsRoute
+  '/dashboard/admin/': typeof AuthenticatedDashboardAdminIndexRoute
+  '/dashboard/categories': typeof AuthenticatedDashboardCategoriesIndexRoute
+  '/dashboard/performance': typeof AuthenticatedDashboardPerformanceIndexRoute
+  '/dashboard/practice': typeof AuthenticatedDashboardPracticeIndexRoute
+  '/dashboard/questions': typeof AuthenticatedDashboardQuestionsIndexRoute
+  '/dashboard/questions/answer/$questionId': typeof AuthenticatedDashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/callback': typeof CallbackRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
-  '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
-  '/dashboard/admin': typeof DashboardAdminIndexRoute
-  '/dashboard/categories': typeof DashboardCategoriesIndexRoute
-  '/dashboard/performance': typeof DashboardPerformanceIndexRoute
-  '/dashboard/practice': typeof DashboardPracticeIndexRoute
-  '/dashboard/questions': typeof DashboardQuestionsIndexRoute
-  '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
+  '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/admin/categories': typeof AuthenticatedDashboardAdminCategoriesRoute
+  '/dashboard/admin/questions': typeof AuthenticatedDashboardAdminQuestionsRoute
+  '/dashboard/admin': typeof AuthenticatedDashboardAdminIndexRoute
+  '/dashboard/categories': typeof AuthenticatedDashboardCategoriesIndexRoute
+  '/dashboard/performance': typeof AuthenticatedDashboardPerformanceIndexRoute
+  '/dashboard/practice': typeof AuthenticatedDashboardPracticeIndexRoute
+  '/dashboard/questions': typeof AuthenticatedDashboardQuestionsIndexRoute
+  '/dashboard/questions/answer/$questionId': typeof AuthenticatedDashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/callback': typeof CallbackRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/admin': typeof DashboardAdminRouteWithChildren
-  '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
-  '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
-  '/dashboard/admin/': typeof DashboardAdminIndexRoute
-  '/dashboard/categories/': typeof DashboardCategoriesIndexRoute
-  '/dashboard/performance/': typeof DashboardPerformanceIndexRoute
-  '/dashboard/practice/': typeof DashboardPracticeIndexRoute
-  '/dashboard/questions/': typeof DashboardQuestionsIndexRoute
-  '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/_authenticated/dashboard/admin': typeof AuthenticatedDashboardAdminRouteWithChildren
+  '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/dashboard/admin/categories': typeof AuthenticatedDashboardAdminCategoriesRoute
+  '/_authenticated/dashboard/admin/questions': typeof AuthenticatedDashboardAdminQuestionsRoute
+  '/_authenticated/dashboard/admin/': typeof AuthenticatedDashboardAdminIndexRoute
+  '/_authenticated/dashboard/categories/': typeof AuthenticatedDashboardCategoriesIndexRoute
+  '/_authenticated/dashboard/performance/': typeof AuthenticatedDashboardPerformanceIndexRoute
+  '/_authenticated/dashboard/practice/': typeof AuthenticatedDashboardPracticeIndexRoute
+  '/_authenticated/dashboard/questions/': typeof AuthenticatedDashboardQuestionsIndexRoute
+  '/_authenticated/dashboard/questions/answer/$questionId': typeof AuthenticatedDashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -169,40 +181,41 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/callback'
-    | '/dashboard'
-    | '/dashboard/admin'
-    | '/dashboard/'
-    | '/dashboard/admin/categories'
-    | '/dashboard/admin/questions'
-    | '/dashboard/admin/'
-    | '/dashboard/categories/'
-    | '/dashboard/performance/'
-    | '/dashboard/practice/'
-    | '/dashboard/questions/'
-    | '/dashboard/questions/answer/$questionId'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/dashboard/admin'
+    | '/_authenticated/dashboard/'
+    | '/_authenticated/dashboard/admin/categories'
+    | '/_authenticated/dashboard/admin/questions'
+    | '/_authenticated/dashboard/admin/'
+    | '/_authenticated/dashboard/categories/'
+    | '/_authenticated/dashboard/performance/'
+    | '/_authenticated/dashboard/practice/'
+    | '/_authenticated/dashboard/questions/'
+    | '/_authenticated/dashboard/questions/answer/$questionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   CallbackRoute: typeof CallbackRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/callback': {
       id: '/callback'
       path: '/callback'
       fullPath: '/callback'
       preLoaderRoute: typeof CallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -212,124 +225,155 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/': {
-      id: '/dashboard/'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard/': {
+      id: '/_authenticated/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/admin': {
-      id: '/dashboard/admin'
+    '/_authenticated/dashboard/admin': {
+      id: '/_authenticated/dashboard/admin'
       path: '/admin'
       fullPath: '/dashboard/admin'
-      preLoaderRoute: typeof DashboardAdminRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardAdminRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/questions/': {
-      id: '/dashboard/questions/'
+    '/_authenticated/dashboard/questions/': {
+      id: '/_authenticated/dashboard/questions/'
       path: '/questions'
       fullPath: '/dashboard/questions'
-      preLoaderRoute: typeof DashboardQuestionsIndexRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardQuestionsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/practice/': {
-      id: '/dashboard/practice/'
+    '/_authenticated/dashboard/practice/': {
+      id: '/_authenticated/dashboard/practice/'
       path: '/practice'
       fullPath: '/dashboard/practice'
-      preLoaderRoute: typeof DashboardPracticeIndexRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardPracticeIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/performance/': {
-      id: '/dashboard/performance/'
+    '/_authenticated/dashboard/performance/': {
+      id: '/_authenticated/dashboard/performance/'
       path: '/performance'
       fullPath: '/dashboard/performance'
-      preLoaderRoute: typeof DashboardPerformanceIndexRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardPerformanceIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/categories/': {
-      id: '/dashboard/categories/'
+    '/_authenticated/dashboard/categories/': {
+      id: '/_authenticated/dashboard/categories/'
       path: '/categories'
       fullPath: '/dashboard/categories'
-      preLoaderRoute: typeof DashboardCategoriesIndexRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardCategoriesIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
-    '/dashboard/admin/': {
-      id: '/dashboard/admin/'
+    '/_authenticated/dashboard/admin/': {
+      id: '/_authenticated/dashboard/admin/'
       path: '/'
       fullPath: '/dashboard/admin/'
-      preLoaderRoute: typeof DashboardAdminIndexRouteImport
-      parentRoute: typeof DashboardAdminRoute
+      preLoaderRoute: typeof AuthenticatedDashboardAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardAdminRoute
     }
-    '/dashboard/admin/questions': {
-      id: '/dashboard/admin/questions'
+    '/_authenticated/dashboard/admin/questions': {
+      id: '/_authenticated/dashboard/admin/questions'
       path: '/questions'
       fullPath: '/dashboard/admin/questions'
-      preLoaderRoute: typeof DashboardAdminQuestionsRouteImport
-      parentRoute: typeof DashboardAdminRoute
+      preLoaderRoute: typeof AuthenticatedDashboardAdminQuestionsRouteImport
+      parentRoute: typeof AuthenticatedDashboardAdminRoute
     }
-    '/dashboard/admin/categories': {
-      id: '/dashboard/admin/categories'
+    '/_authenticated/dashboard/admin/categories': {
+      id: '/_authenticated/dashboard/admin/categories'
       path: '/categories'
       fullPath: '/dashboard/admin/categories'
-      preLoaderRoute: typeof DashboardAdminCategoriesRouteImport
-      parentRoute: typeof DashboardAdminRoute
+      preLoaderRoute: typeof AuthenticatedDashboardAdminCategoriesRouteImport
+      parentRoute: typeof AuthenticatedDashboardAdminRoute
     }
-    '/dashboard/questions/answer/$questionId': {
-      id: '/dashboard/questions/answer/$questionId'
+    '/_authenticated/dashboard/questions/answer/$questionId': {
+      id: '/_authenticated/dashboard/questions/answer/$questionId'
       path: '/questions/answer/$questionId'
       fullPath: '/dashboard/questions/answer/$questionId'
-      preLoaderRoute: typeof DashboardQuestionsAnswerQuestionIdRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof AuthenticatedDashboardQuestionsAnswerQuestionIdRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
   }
 }
 
-interface DashboardAdminRouteChildren {
-  DashboardAdminCategoriesRoute: typeof DashboardAdminCategoriesRoute
-  DashboardAdminQuestionsRoute: typeof DashboardAdminQuestionsRoute
-  DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
+interface AuthenticatedDashboardAdminRouteChildren {
+  AuthenticatedDashboardAdminCategoriesRoute: typeof AuthenticatedDashboardAdminCategoriesRoute
+  AuthenticatedDashboardAdminQuestionsRoute: typeof AuthenticatedDashboardAdminQuestionsRoute
+  AuthenticatedDashboardAdminIndexRoute: typeof AuthenticatedDashboardAdminIndexRoute
 }
 
-const DashboardAdminRouteChildren: DashboardAdminRouteChildren = {
-  DashboardAdminCategoriesRoute: DashboardAdminCategoriesRoute,
-  DashboardAdminQuestionsRoute: DashboardAdminQuestionsRoute,
-  DashboardAdminIndexRoute: DashboardAdminIndexRoute,
+const AuthenticatedDashboardAdminRouteChildren: AuthenticatedDashboardAdminRouteChildren =
+  {
+    AuthenticatedDashboardAdminCategoriesRoute:
+      AuthenticatedDashboardAdminCategoriesRoute,
+    AuthenticatedDashboardAdminQuestionsRoute:
+      AuthenticatedDashboardAdminQuestionsRoute,
+    AuthenticatedDashboardAdminIndexRoute:
+      AuthenticatedDashboardAdminIndexRoute,
+  }
+
+const AuthenticatedDashboardAdminRouteWithChildren =
+  AuthenticatedDashboardAdminRoute._addFileChildren(
+    AuthenticatedDashboardAdminRouteChildren,
+  )
+
+interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardAdminRoute: typeof AuthenticatedDashboardAdminRouteWithChildren
+  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardCategoriesIndexRoute: typeof AuthenticatedDashboardCategoriesIndexRoute
+  AuthenticatedDashboardPerformanceIndexRoute: typeof AuthenticatedDashboardPerformanceIndexRoute
+  AuthenticatedDashboardPracticeIndexRoute: typeof AuthenticatedDashboardPracticeIndexRoute
+  AuthenticatedDashboardQuestionsIndexRoute: typeof AuthenticatedDashboardQuestionsIndexRoute
+  AuthenticatedDashboardQuestionsAnswerQuestionIdRoute: typeof AuthenticatedDashboardQuestionsAnswerQuestionIdRoute
 }
 
-const DashboardAdminRouteWithChildren = DashboardAdminRoute._addFileChildren(
-  DashboardAdminRouteChildren,
-)
+const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
+  {
+    AuthenticatedDashboardAdminRoute:
+      AuthenticatedDashboardAdminRouteWithChildren,
+    AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardCategoriesIndexRoute:
+      AuthenticatedDashboardCategoriesIndexRoute,
+    AuthenticatedDashboardPerformanceIndexRoute:
+      AuthenticatedDashboardPerformanceIndexRoute,
+    AuthenticatedDashboardPracticeIndexRoute:
+      AuthenticatedDashboardPracticeIndexRoute,
+    AuthenticatedDashboardQuestionsIndexRoute:
+      AuthenticatedDashboardQuestionsIndexRoute,
+    AuthenticatedDashboardQuestionsAnswerQuestionIdRoute:
+      AuthenticatedDashboardQuestionsAnswerQuestionIdRoute,
+  }
 
-interface DashboardRouteChildren {
-  DashboardAdminRoute: typeof DashboardAdminRouteWithChildren
-  DashboardIndexRoute: typeof DashboardIndexRoute
-  DashboardCategoriesIndexRoute: typeof DashboardCategoriesIndexRoute
-  DashboardPerformanceIndexRoute: typeof DashboardPerformanceIndexRoute
-  DashboardPracticeIndexRoute: typeof DashboardPracticeIndexRoute
-  DashboardQuestionsIndexRoute: typeof DashboardQuestionsIndexRoute
-  DashboardQuestionsAnswerQuestionIdRoute: typeof DashboardQuestionsAnswerQuestionIdRoute
+const AuthenticatedDashboardRouteWithChildren =
+  AuthenticatedDashboardRoute._addFileChildren(
+    AuthenticatedDashboardRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
 }
 
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardAdminRoute: DashboardAdminRouteWithChildren,
-  DashboardIndexRoute: DashboardIndexRoute,
-  DashboardCategoriesIndexRoute: DashboardCategoriesIndexRoute,
-  DashboardPerformanceIndexRoute: DashboardPerformanceIndexRoute,
-  DashboardPracticeIndexRoute: DashboardPracticeIndexRoute,
-  DashboardQuestionsIndexRoute: DashboardQuestionsIndexRoute,
-  DashboardQuestionsAnswerQuestionIdRoute:
-    DashboardQuestionsAnswerQuestionIdRoute,
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
 }
 
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   CallbackRoute: CallbackRoute,
-  DashboardRoute: DashboardRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

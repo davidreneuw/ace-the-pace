@@ -1,6 +1,6 @@
 import { v } from 'convex/values'
 import { mutation, query } from './_generated/server'
-import { Id } from './_generated/dataModel'
+import type { Id } from './_generated/dataModel'
 
 // Get all active questions
 export const listActive = query({
@@ -59,7 +59,11 @@ export const create = mutation({
     imageStorageId: v.optional(v.id('_storage')),
     audioStorageId: v.optional(v.id('_storage')),
     videoStorageId: v.optional(v.id('_storage')),
-    difficulty: v.union(v.literal('easy'), v.literal('medium'), v.literal('hard')),
+    difficulty: v.union(
+      v.literal('easy'),
+      v.literal('medium'),
+      v.literal('hard'),
+    ),
     explanation: v.string(),
     categoryIds: v.array(v.id('categories')),
     isActive: v.boolean(),
@@ -174,7 +178,9 @@ export const updateAnswers = mutation({
 
     const existingIds = new Set(existingAnswers.map((a) => a._id))
     const providedIds = new Set(
-      args.answers.map((a) => a.id).filter((id): id is Id<'answerChoices'> => id !== undefined),
+      args.answers
+        .map((a) => a.id)
+        .filter((id): id is Id<'answerChoices'> => id !== undefined),
     )
 
     // Delete answers that are no longer present

@@ -4,26 +4,28 @@ import { createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import { RouterContext } from './routes/__root'
 
-// Default context for SSR or when auth is not yet initialized
-const defaultContext: RouterContext = {
-  auth: {
-    user: null,
-    isLoading: true,
-    signIn: () => {},
-    signOut: () => {},
+// Create the router instance with default context
+// The AuthContextSync component will update this with real auth state
+export const router = createRouter({
+  routeTree,
+  context: {
+    auth: {
+      user: null,
+      isLoading: true,
+      signIn: () => {},
+      signOut: () => {},
+    },
   },
-}
+  scrollRestoration: true,
+  defaultPreloadStaleTime: 0,
+})
 
-// Create a new router instance with optional auth context
-// This allows the router to be created on the server (with default context)
-// and updated on the client (with actual auth context)
-export const getRouter = (context?: RouterContext) => {
-  const router = createRouter({
-    routeTree,
-    context: context || defaultContext,
-    scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
-  })
+// Export as getRouter for TanStack Start compatibility
+export const getRouter = () => router
 
-  return router
+// Register router type for type safety
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
 }

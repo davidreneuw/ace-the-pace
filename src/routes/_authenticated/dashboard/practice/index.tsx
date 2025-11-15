@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { BookOpen } from 'lucide-react'
 
-export const Route = createFileRoute('/dashboard/practice/')({
+export const Route = createFileRoute('/_authenticated/dashboard/practice/')({
   component: PracticePage,
 })
 
@@ -29,8 +29,8 @@ function PracticePage() {
             Coming Soon
           </h2>
           <p className="text-muted-foreground">
-            This page will allow you to start practice sessions with customizable
-            question sets.
+            This page will allow you to start practice sessions with
+            customizable question sets.
           </p>
         </div>
       </div>

@@ -1,19 +1,17 @@
 {
-    "$schema": "./node_modules/wrangler/config-schema.json",
-    "name": "ace-the-pace",
-    "compatibility_date": "2025-09-02",
-    "compatibility_flags": [
-        "nodejs_compat"
-    ],
-    "main": "@tanstack/react-start/server-entry",
-    "observability": {
-        "enabled": true
-    },
-    "vars": {
-        "VITE_WORKOS_CLIENT_ID": "client_01K9NJ2PXFPEVTBECNAHXS55V9",
-        "VITE_WORKOS_API_HOSTNAME": "api.workos.com",
-        "CONVEX_DEPLOYMENT": "dev:gallant-malamute-607",
-        "VITE_CONVEX_URL": "https: //gallant-malamute-607.convex.cloud",
-        "VITE_WORKOS_REDIRECT_URI": "https://ace-the-pace.davrene11.workers.dev/callback"
-    }
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "ace-the-pace",
+  "compatibility_date": "2025-09-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  "observability": {
+    "enabled": true,
+  },
+  "vars": {
+    "VITE_WORKOS_CLIENT_ID": "client_01K9NJ2PXFPEVTBECNAHXS55V9",
+    "VITE_WORKOS_API_HOSTNAME": "api.workos.com",
+    "CONVEX_DEPLOYMENT": "dev:gallant-malamute-607",
+    "VITE_CONVEX_URL": "https: //gallant-malamute-607.convex.cloud",
+    "VITE_WORKOS_REDIRECT_URI": "https://ace-the-pace.davrene11.workers.dev/callback",
+  },
 }

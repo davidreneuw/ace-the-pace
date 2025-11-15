@@ -5,7 +5,6 @@ export const Route = createFileRoute('/callback')({
 })
 
 function CallbackLayout() {
-
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="text-center">

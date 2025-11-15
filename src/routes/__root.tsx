@@ -1,13 +1,19 @@
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRouteWithContext,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-
+import { useAuth } from '@workos-inc/authkit-react'
+import { useEffect } from 'react'
 
 import WorkOSProvider from '../integrations/workos/provider'
-
 import ConvexProvider from '../integrations/convex/provider'
 
 import appCss from '../styles.css?url'
+import { router } from '../router'
 
 // Define router context interface for type-safe auth state
 export interface RouterContext {
@@ -34,7 +40,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
       {
         name: 'description',
-        content: 'Master the Canadian Physician Assistant Certification Exam (PACE) with comprehensive practice questions, detailed explanations, and performance tracking.',
+        content:
+          'Master the Canadian Physician Assistant Certification Exam (PACE) with comprehensive practice questions, detailed explanations, and performance tracking.',
       },
     ],
     links: [
@@ -50,10 +57,32 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   }),
 
   shellComponent: RootDocument,
+  component: RootComponent,
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+// Component to sync auth context to router
+function AuthContextSync({ children }: { children: React.ReactNode }) {
+  const auth = useAuth()
 
+  useEffect(() => {
+    // Update router context with auth state
+    // This makes auth available to all route beforeLoad hooks
+    router.update({
+      context: {
+        auth: {
+          user: auth.user,
+          isLoading: auth.isLoading,
+          signIn: auth.signIn,
+          signOut: auth.signOut,
+        },
+      },
+    })
+  }, [auth.user, auth.isLoading, auth.signIn, auth.signOut])
+
+  return <>{children}</>
+}
+
+function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -61,23 +90,32 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <WorkOSProvider>
-          <ConvexProvider>
-            {children}
-            <TanStackDevtools
-              config={{
-                position: 'bottom-right',
-              }}
-              plugins={[
-                {
-                  name: 'Tanstack Router',
-                  render: <TanStackRouterDevtoolsPanel />,
-                },
-              ]}
-            />
-          </ConvexProvider>
+          <AuthContextSync>
+            <ConvexProvider>
+              {children}
+              <TanStackDevtools
+                config={{
+                  position: 'bottom-right',
+                }}
+                plugins={[
+                  {
+                    name: 'Tanstack Router',
+                    render: <TanStackRouterDevtoolsPanel />,
+                  },
+                ]}
+              />
+            </ConvexProvider>
+          </AuthContextSync>
         </WorkOSProvider>
         <Scripts />
       </body>
     </html>
   )
+}
+
+function RootComponent() {
+  // This component is rendered inside WorkOSProvider
+  // so we can access auth state from WorkOS
+  // The auth context is available to child routes via useRouteContext()
+  return <Outlet />
 }

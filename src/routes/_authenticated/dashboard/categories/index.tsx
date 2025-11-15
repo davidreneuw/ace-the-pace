@@ -1,10 +1,19 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useQuery } from 'convex/react'
-import { BookOpen, ChevronLeft, ChevronRight, Filter, FolderTree, Loader2, Search, X } from 'lucide-react'
+import {
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  FolderTree,
+  Loader2,
+  Search,
+  X,
+} from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import { api } from '../../../../convex/_generated/api'
+import { api } from '../../../../../convex/_generated/api'
 
-export const Route = createFileRoute('/dashboard/categories/')({
+export const Route = createFileRoute('/_authenticated/dashboard/categories/')({
   component: CategoriesPage,
 })
 
@@ -24,11 +33,13 @@ function CategoriesPage() {
   const filteredCategories = useMemo(() => {
     if (!categories) return []
 
-    let filtered = categories.filter((category) => {
+    const filtered = categories.filter((category) => {
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase()
         const matchesName = category.name.toLowerCase().includes(query)
-        const matchesDescription = category.description?.toLowerCase().includes(query)
+        const matchesDescription = category.description
+          ?.toLowerCase()
+          .includes(query)
         return matchesName || matchesDescription
       }
       return true
@@ -92,8 +103,9 @@ function CategoriesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search categories..."
-              className={`w-full pl-10 pr-10 py-2.5 border rounded-lg bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary ${searchQuery.trim() ? 'border-primary' : 'border-border'
-                }`}
+              className={`w-full pl-10 pr-10 py-2.5 border rounded-lg bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary ${
+                searchQuery.trim() ? 'border-primary' : 'border-border'
+              }`}
             />
             {searchQuery && (
               <button
@@ -110,7 +122,8 @@ function CategoriesPage() {
           {filteredCategories.length > 0 && (
             <div className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                Showing {startIndex + 1}-{Math.min(endIndex, filteredCategories.length)} of{' '}
+                Showing {startIndex + 1}-
+                {Math.min(endIndex, filteredCategories.length)} of{' '}
                 {filteredCategories.length} categories
               </div>
               <div className="flex items-center gap-2">
@@ -125,40 +138,51 @@ function CategoriesPage() {
 
                 {/* Page numbers */}
                 <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                    const showPage =
-                      page === 1 ||
-                      page === totalPages ||
-                      (page >= currentPage - 1 && page <= currentPage + 1)
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => {
+                      const showPage =
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
 
-                    if (!showPage) {
-                      if (page === currentPage - 2 || page === currentPage + 2) {
-                        return (
-                          <span key={page} className="px-2 text-muted-foreground">
-                            ...
-                          </span>
-                        )
+                      if (!showPage) {
+                        if (
+                          page === currentPage - 2 ||
+                          page === currentPage + 2
+                        ) {
+                          return (
+                            <span
+                              key={page}
+                              className="px-2 text-muted-foreground"
+                            >
+                              ...
+                            </span>
+                          )
+                        }
+                        return null
                       }
-                      return null
-                    }
 
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${currentPage === page
-                          ? 'bg-primary text-primary-foreground font-medium'
-                          : 'border border-border hover:bg-muted'
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+                            currentPage === page
+                              ? 'bg-primary text-primary-foreground font-medium'
+                              : 'border border-border hover:bg-muted'
                           }`}
-                      >
-                        {page}
-                      </button>
-                    )
-                  })}
+                        >
+                          {page}
+                        </button>
+                      )
+                    },
+                  )}
                 </div>
 
                 <button
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  onClick={() =>
+                    setCurrentPage((p) => Math.min(totalPages, p + 1))
+                  }
                   disabled={currentPage === totalPages}
                   className="px-3 py-2 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Next page"
@@ -185,7 +209,10 @@ function CategoriesPage() {
           {/* Empty State */}
           {!isLoading && paginatedCategories.length === 0 && (
             <div className="bg-card border border-border rounded-lg p-12 text-center">
-              <FolderTree className="mx-auto mb-4 text-muted-foreground" size={64} />
+              <FolderTree
+                className="mx-auto mb-4 text-muted-foreground"
+                size={64}
+              />
               <h2 className="text-xl font-semibold text-foreground mb-2">
                 No Categories Found
               </h2>
@@ -212,9 +239,9 @@ function CategoriesPage() {
                     style={
                       category.color
                         ? {
-                          borderLeftWidth: '4px',
-                          borderLeftColor: category.color,
-                        }
+                            borderLeftWidth: '4px',
+                            borderLeftColor: category.color,
+                          }
                         : undefined
                     }
                   >
@@ -235,11 +262,16 @@ function CategoriesPage() {
                       <div className="flex items-center gap-4 flex-shrink-0">
                         {/* Stats */}
                         <div className="flex items-center gap-2">
-                          <BookOpen size={16} className="text-muted-foreground" />
+                          <BookOpen
+                            size={16}
+                            className="text-muted-foreground"
+                          />
                           <span className="text-sm font-medium text-foreground">
                             {category.questionCount}{' '}
                             <span className="text-muted-foreground">
-                              {category.questionCount === 1 ? 'question' : 'questions'}
+                              {category.questionCount === 1
+                                ? 'question'
+                                : 'questions'}
                             </span>
                           </span>
                         </div>
@@ -294,7 +326,9 @@ function CategoriesPage() {
                     onChange={() => setSortBy('questions-desc')}
                     className="w-4 h-4 cursor-pointer"
                   />
-                  <span className="text-sm text-foreground">Most Questions</span>
+                  <span className="text-sm text-foreground">
+                    Most Questions
+                  </span>
                 </label>
                 <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors cursor-pointer">
                   <input
@@ -304,7 +338,9 @@ function CategoriesPage() {
                     onChange={() => setSortBy('questions-asc')}
                     className="w-4 h-4 cursor-pointer"
                   />
-                  <span className="text-sm text-foreground">Fewest Questions</span>
+                  <span className="text-sm text-foreground">
+                    Fewest Questions
+                  </span>
                 </label>
               </div>
             </div>

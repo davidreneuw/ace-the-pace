@@ -1,11 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery, useMutation } from 'convex/react'
-import { api } from '../../../../convex/_generated/api'
-import { useState, useEffect } from 'react'
-import { Id } from '../../../../convex/_generated/dataModel'
-import { Plus, Edit, Trash2, Copy } from 'lucide-react'
+import { useMutation, useQuery } from 'convex/react'
+import { useEffect, useState } from 'react'
+import { Copy, Edit, Plus, Trash2 } from 'lucide-react'
+import { api } from '../../../../../convex/_generated/api'
+import type { Id } from '../../../../../convex/_generated/dataModel'
 
-export const Route = createFileRoute('/dashboard/admin/questions')({
+export const Route = createFileRoute(
+  '/_authenticated/dashboard/admin/questions',
+)({
   component: QuestionManagement,
 })
 
@@ -26,10 +28,10 @@ type QuestionForm = {
   videoStorageId?: string
   difficulty: 'easy' | 'medium' | 'hard'
   explanation: string
-  categoryIds: Id<'categories'>[]
+  categoryIds: Array<Id<'categories'>>
   isActive: boolean
   order?: number
-  answers: AnswerChoice[]
+  answers: Array<AnswerChoice>
 }
 
 const emptyForm: QuestionForm = {
@@ -255,7 +257,9 @@ function QuestionManagement() {
 
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {questionsLoading && (
-            <div className="text-center py-8 text-muted-foreground">Loading...</div>
+            <div className="text-center py-8 text-muted-foreground">
+              Loading...
+            </div>
           )}
           {!questionsLoading && questions?.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
@@ -329,274 +333,296 @@ function QuestionManagement() {
       {/* Right Panel - Question Form */}
       <div className="w-3/5 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-y-auto p-6">
-        <h2 className="text-xl font-semibold text-foreground mb-6">
-          {formData.id ? 'Edit Question' : 'New Question'}
-        </h2>
+          <h2 className="text-xl font-semibold text-foreground mb-6">
+            {formData.id ? 'Edit Question' : 'New Question'}
+          </h2>
 
-        <div className="space-y-6">
-          {/* Question Text */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Question Text *
-            </label>
-            <textarea
-              value={formData.questionText}
-              onChange={(e) =>
-                setFormData({ ...formData, questionText: e.target.value })
-              }
-              rows={4}
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Enter the question..."
-            />
-          </div>
-
-          {/* Media Storage IDs */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-6">
+            {/* Question Text */}
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
-                Image Storage ID
+                Question Text *
               </label>
-              <input
-                type="text"
-                value={formData.imageStorageId || ''}
+              <textarea
+                value={formData.questionText}
                 onChange={(e) =>
-                  setFormData({ ...formData, imageStorageId: e.target.value || undefined })
+                  setFormData({ ...formData, questionText: e.target.value })
                 }
+                rows={4}
                 className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Optional"
+                placeholder="Enter the question..."
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Audio Storage ID
-              </label>
-              <input
-                type="text"
-                value={formData.audioStorageId || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, audioStorageId: e.target.value || undefined })
-                }
-                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Optional"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Video Storage ID
-              </label>
-              <input
-                type="text"
-                value={formData.videoStorageId || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, videoStorageId: e.target.value || undefined })
-                }
-                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="Optional"
-              />
-            </div>
-          </div>
 
-          {/* Difficulty and Status */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Difficulty *
-              </label>
-              <select
-                value={formData.difficulty}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    difficulty: e.target.value as 'easy' | 'medium' | 'hard',
-                  })
-                }
-                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
-              >
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Status
-              </label>
-              <label className="flex items-center gap-2 px-3 py-2 cursor-pointer">
+            {/* Media Storage IDs */}
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Image Storage ID
+                </label>
                 <input
-                  type="checkbox"
-                  checked={formData.isActive}
+                  type="text"
+                  value={formData.imageStorageId || ''}
                   onChange={(e) =>
-                    setFormData({ ...formData, isActive: e.target.checked })
+                    setFormData({
+                      ...formData,
+                      imageStorageId: e.target.value || undefined,
+                    })
                   }
-                  className="w-4 h-4 cursor-pointer"
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Optional"
                 />
-                <span className="text-sm text-foreground">Active</span>
-              </label>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Audio Storage ID
+                </label>
+                <input
+                  type="text"
+                  value={formData.audioStorageId || ''}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      audioStorageId: e.target.value || undefined,
+                    })
+                  }
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Optional"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Video Storage ID
+                </label>
+                <input
+                  type="text"
+                  value={formData.videoStorageId || ''}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      videoStorageId: e.target.value || undefined,
+                    })
+                  }
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Optional"
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Categories */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Categories * (select at least one)
-            </label>
-            <div className="grid grid-cols-2 gap-2 p-3 border border-border rounded-lg bg-background max-h-48 overflow-y-auto">
-              {categories?.map((category) => (
-                <label
-                  key={category._id}
-                  className="flex items-center gap-2 cursor-pointer hover:bg-muted px-2 py-1 rounded"
+            {/* Difficulty and Status */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Difficulty *
+                </label>
+                <select
+                  value={formData.difficulty}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      difficulty: e.target.value as 'easy' | 'medium' | 'hard',
+                    })
+                  }
+                  className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
                 >
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Status
+                </label>
+                <label className="flex items-center gap-2 px-3 py-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={formData.categoryIds.includes(category._id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setFormData({
-                          ...formData,
-                          categoryIds: [...formData.categoryIds, category._id],
-                        })
-                      } else {
-                        setFormData({
-                          ...formData,
-                          categoryIds: formData.categoryIds.filter(
-                            (id) => id !== category._id,
-                          ),
-                        })
-                      }
-                    }}
+                    checked={formData.isActive}
+                    onChange={(e) =>
+                      setFormData({ ...formData, isActive: e.target.checked })
+                    }
                     className="w-4 h-4 cursor-pointer"
                   />
-                  <span className="text-sm text-foreground">{category.name}</span>
+                  <span className="text-sm text-foreground">Active</span>
                 </label>
-              ))}
-              {(!categories || categories.length === 0) && (
-                <p className="text-sm text-muted-foreground col-span-2">
-                  No categories available. Create categories first.
-                </p>
-              )}
+              </div>
             </div>
-          </div>
 
-          {/* Explanation */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Explanation *
-            </label>
-            <textarea
-              value={formData.explanation}
-              onChange={(e) =>
-                setFormData({ ...formData, explanation: e.target.value })
-              }
-              rows={4}
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Explain why the correct answer is correct..."
-            />
-          </div>
-
-          {/* Answer Choices */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-3">
-              Answer Choices * (select one as correct)
-            </label>
-            <div className="space-y-3">
-              {formData.answers.map((answer, idx) => (
-                <div
-                  key={idx}
-                  className={`p-3 border rounded-lg ${answer.isCorrect ? 'border-primary bg-primary/5' : 'border-border bg-card'}`}
-                >
-                  <div className="flex items-start gap-3">
+            {/* Categories */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Categories * (select at least one)
+              </label>
+              <div className="grid grid-cols-2 gap-2 p-3 border border-border rounded-lg bg-background max-h-48 overflow-y-auto">
+                {categories?.map((category) => (
+                  <label
+                    key={category._id}
+                    className="flex items-center gap-2 cursor-pointer hover:bg-muted px-2 py-1 rounded"
+                  >
                     <input
-                      type="radio"
-                      checked={answer.isCorrect}
-                      onChange={() =>
-                        setFormData({
-                          ...formData,
-                          answers: formData.answers.map((a, i) => ({
-                            ...a,
-                            isCorrect: i === idx,
-                          })),
-                        })
-                      }
-                      className="mt-1 cursor-pointer"
+                      type="checkbox"
+                      checked={formData.categoryIds.includes(category._id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFormData({
+                            ...formData,
+                            categoryIds: [
+                              ...formData.categoryIds,
+                              category._id,
+                            ],
+                          })
+                        } else {
+                          setFormData({
+                            ...formData,
+                            categoryIds: formData.categoryIds.filter(
+                              (id) => id !== category._id,
+                            ),
+                          })
+                        }
+                      }}
+                      className="w-4 h-4 cursor-pointer"
                     />
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-foreground">
-                          {answer.choiceLetter}.
-                        </span>
+                    <span className="text-sm text-foreground">
+                      {category.name}
+                    </span>
+                  </label>
+                ))}
+                {(!categories || categories.length === 0) && (
+                  <p className="text-sm text-muted-foreground col-span-2">
+                    No categories available. Create categories first.
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Explanation */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Explanation *
+              </label>
+              <textarea
+                value={formData.explanation}
+                onChange={(e) =>
+                  setFormData({ ...formData, explanation: e.target.value })
+                }
+                rows={4}
+                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Explain why the correct answer is correct..."
+              />
+            </div>
+
+            {/* Answer Choices */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-3">
+                Answer Choices * (select one as correct)
+              </label>
+              <div className="space-y-3">
+                {formData.answers.map((answer, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-3 border rounded-lg ${answer.isCorrect ? 'border-primary bg-primary/5' : 'border-border bg-card'}`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="radio"
+                        checked={answer.isCorrect}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            answers: formData.answers.map((a, i) => ({
+                              ...a,
+                              isCorrect: i === idx,
+                            })),
+                          })
+                        }
+                        className="mt-1 cursor-pointer"
+                      />
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-foreground">
+                            {answer.choiceLetter}.
+                          </span>
+                          <input
+                            type="text"
+                            value={answer.choiceText}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                answers: formData.answers.map((a, i) =>
+                                  i === idx
+                                    ? { ...a, choiceText: e.target.value }
+                                    : a,
+                                ),
+                              })
+                            }
+                            className="flex-1 px-2 py-1 border border-border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="Answer choice text..."
+                          />
+                        </div>
                         <input
                           type="text"
-                          value={answer.choiceText}
+                          value={answer.imageStorageId || ''}
                           onChange={(e) =>
                             setFormData({
                               ...formData,
                               answers: formData.answers.map((a, i) =>
-                                i === idx ? { ...a, choiceText: e.target.value } : a,
+                                i === idx
+                                  ? {
+                                      ...a,
+                                      imageStorageId:
+                                        e.target.value || undefined,
+                                    }
+                                  : a,
                               ),
                             })
                           }
-                          className="flex-1 px-2 py-1 border border-border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                          placeholder="Answer choice text..."
+                          className="w-full px-2 py-1 text-sm border border-border rounded bg-background text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                          placeholder="Image Storage ID (optional)"
                         />
                       </div>
-                      <input
-                        type="text"
-                        value={answer.imageStorageId || ''}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            answers: formData.answers.map((a, i) =>
-                              i === idx
-                                ? { ...a, imageStorageId: e.target.value || undefined }
-                                : a,
-                            ),
-                          })
-                        }
-                        className="w-full px-2 py-1 text-sm border border-border rounded bg-background text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="Image Storage ID (optional)"
-                      />
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            {/* Order (optional) */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Order (optional)
+              </label>
+              <input
+                type="number"
+                value={formData.order || ''}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    order: e.target.value
+                      ? parseInt(e.target.value)
+                      : undefined,
+                  })
+                }
+                className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Display order"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4 border-t border-border">
+              <button
+                onClick={handleSave}
+                className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors cursor-pointer"
+              >
+                {formData.id ? 'Update Question' : 'Create Question'}
+              </button>
+              <button
+                onClick={handleNewQuestion}
+                className="px-6 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
             </div>
           </div>
-
-          {/* Order (optional) */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
-              Order (optional)
-            </label>
-            <input
-              type="number"
-              value={formData.order || ''}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  order: e.target.value ? parseInt(e.target.value) : undefined,
-                })
-              }
-              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Display order"
-            />
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-3 pt-4 border-t border-border">
-            <button
-              onClick={handleSave}
-              className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors cursor-pointer"
-            >
-              {formData.id ? 'Update Question' : 'Create Question'}
-            </button>
-            <button
-              onClick={handleNewQuestion}
-              className="px-6 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium rounded-lg transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
         </div>
       </div>
     </div>

@@ -1,17 +1,37 @@
 import { Link } from '@tanstack/react-router'
 import { useAuth } from '@workos-inc/authkit-react'
-import { BarChart, BookOpen, ChevronUp, FolderTree, GraduationCap, Home, LogOut, PanelLeftClose, PanelLeftOpen, Play, Settings } from 'lucide-react'
+import {
+  BarChart,
+  BookOpen,
+  ChevronUp,
+  FolderTree,
+  GraduationCap,
+  Home,
+  LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Play,
+  Settings,
+} from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
-  { name: 'Practice Sessions', href: '/dashboard/questions/practice', icon: Play },
+  {
+    name: 'Practice Sessions',
+    href: '/dashboard/practice',
+    icon: Play,
+  },
   { name: 'Question Bank', href: '/dashboard/questions', icon: BookOpen },
   { name: 'Categories', href: '/dashboard/categories', icon: FolderTree },
   { name: 'Performance', href: '/dashboard/performance', icon: BarChart },
 ]
 
-const adminNavigation = { name: 'Admin Panel', href: '/dashboard/admin', icon: Settings }
+const adminNavigation = {
+  name: 'Admin Panel',
+  href: '/dashboard/admin',
+  icon: Settings,
+}
 
 export default function DashboardSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -24,7 +44,10 @@ export default function DashboardSidebar() {
   // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
         setIsUserMenuOpen(false)
       }
     }
@@ -61,7 +84,9 @@ export default function DashboardSidebar() {
           ${isMobileOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div className={`flex flex-col h-full ${isUserMenuOpen && isCollapsed ? 'overflow-visible' : 'overflow-x-hidden overflow-y-hidden'}`}>
+        <div
+          className={`flex flex-col h-full ${isUserMenuOpen && isCollapsed ? 'overflow-visible' : 'overflow-x-hidden overflow-y-hidden'}`}
+        >
           {/* Header with Logo and Menu Toggle */}
           <div className="px-4 py-[9px] border-b border-border flex-shrink-0">
             <div className="flex items-center gap-3">
@@ -77,7 +102,13 @@ export default function DashboardSidebar() {
                   }
                 }}
                 className="flex items-center justify-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors cursor-pointer flex-shrink-0"
-                aria-label={isMobileOpen ? 'Close menu' : isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                aria-label={
+                  isMobileOpen
+                    ? 'Close menu'
+                    : isCollapsed
+                      ? 'Expand sidebar'
+                      : 'Collapse sidebar'
+                }
               >
                 {isMobileOpen || !isCollapsed ? (
                   <PanelLeftClose size={20} className="flex-shrink-0" />
@@ -92,8 +123,13 @@ export default function DashboardSidebar() {
                 className={`flex items-center gap-2 text-foreground hover:text-primary transition-all cursor-pointer flex-1 min-w-0 ${isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'
                   }`}
               >
-                <GraduationCap size={24} className="text-primary flex-shrink-0" />
-                <span className="font-bold text-lg whitespace-nowrap">Ace the PACE</span>
+                <GraduationCap
+                  size={24}
+                  className="text-primary flex-shrink-0"
+                />
+                <span className="font-bold text-lg whitespace-nowrap">
+                  Ace the PACE
+                </span>
               </Link>
             </div>
           </div>
@@ -147,13 +183,16 @@ export default function DashboardSidebar() {
 
           {/* User Section */}
           {user && (
-            <div className="border-t border-border p-4 flex-shrink-0 relative" ref={userMenuRef}>
+            <div
+              className="border-t border-border p-4 flex-shrink-0 relative"
+              ref={userMenuRef}
+            >
               {/* User Menu Popup */}
               {isUserMenuOpen && (
                 <div
                   className={`bg-card border border-border rounded-lg shadow-lg overflow-hidden z-50 ${isCollapsed
-                    ? 'fixed left-[5.5rem] bottom-5'
-                    : 'absolute bottom-full left-4 right-4 mb-2'
+                      ? 'fixed left-[5.5rem] bottom-5'
+                      : 'absolute bottom-full left-4 right-4 mb-2'
                     }`}
                 >
                   <button
@@ -182,7 +221,9 @@ export default function DashboardSidebar() {
                   />
                 )}
                 <div
-                  className={`flex-1 text-left min-w-0 transition-all overflow-hidden ${isCollapsed ? 'opacity-0 pointer-events-none w-0 min-w-0' : 'opacity-100'
+                  className={`flex-1 text-left min-w-0 transition-all overflow-hidden ${isCollapsed
+                      ? 'opacity-0 pointer-events-none w-0 min-w-0'
+                      : 'opacity-100'
                     }`}
                 >
                   <p className="text-sm font-medium text-foreground truncate whitespace-nowrap">

@@ -1,14 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
-  CheckCircle,
-  Target,
-  Flame,
-  Clock,
-  TrendingUp,
   Calendar,
+  CheckCircle,
+  Clock,
+  Flame,
+  Target,
+  TrendingUp,
 } from 'lucide-react'
 
-export const Route = createFileRoute('/dashboard/')({
+export const Route = createFileRoute('/_authenticated/dashboard/')({
   component: DashboardOverview,
 })
 

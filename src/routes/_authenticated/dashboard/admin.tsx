@@ -1,6 +1,6 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/dashboard/admin')({
+export const Route = createFileRoute('/_authenticated/dashboard/admin')({
   component: AdminLayout,
 })
 

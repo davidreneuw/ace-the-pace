@@ -1,28 +1,29 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useQuery } from 'convex/react'
-import { api } from '../../../../convex/_generated/api'
 import { useState } from 'react'
 import {
-  CheckCircle2,
-  XCircle,
-  ArrowLeft,
-  Loader2,
   AlertCircle,
-  Image as ImageIcon,
+  ArrowLeft,
+  CheckCircle2,
   Headphones,
+  Image as ImageIcon,
+  Loader2,
   Video,
+  XCircle,
 } from 'lucide-react'
-import { Id } from '../../../../convex/_generated/dataModel'
+import { api } from '../../../../../convex/_generated/api'
+import type { Id } from '../../../../../convex/_generated/dataModel'
 
-export const Route = createFileRoute('/dashboard/questions/answer/$questionId')({
+export const Route = createFileRoute(
+  '/_authenticated/dashboard/questions/answer/$questionId',
+)({
   component: QuestionAnswerPage,
 })
 
 function QuestionAnswerPage() {
   const { questionId } = Route.useParams()
-  const [selectedAnswerId, setSelectedAnswerId] = useState<Id<'answerChoices'> | null>(
-    null,
-  )
+  const [selectedAnswerId, setSelectedAnswerId] =
+    useState<Id<'answerChoices'> | null>(null)
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
   // Fetch question with answers
@@ -36,16 +37,18 @@ function QuestionAnswerPage() {
   const isLoading = questionData === undefined
 
   // Get category names for the question
-  const getCategoryNames = (categoryIds: Id<'categories'>[]) => {
+  const getCategoryNames = (categoryIds: Array<Id<'categories'>>) => {
     if (!categories) return []
     return categoryIds
       .map((id) => categories.find((c) => c._id === id))
       .filter((c) => c !== undefined)
-      .map((c) => c!.name)
+      .map((c) => c.name)
   }
 
   // Determine if the selected answer is correct
-  const selectedAnswer = questionData?.answers.find((a) => a._id === selectedAnswerId)
+  const selectedAnswer = questionData?.answers.find(
+    (a) => a._id === selectedAnswerId,
+  )
   const correctAnswer = questionData?.answers.find((a) => a.isCorrect)
   const isCorrect = hasSubmitted && selectedAnswer?.isCorrect
 
@@ -173,17 +176,22 @@ function QuestionAnswerPage() {
 
             {/* Answer Choices */}
             <div className="space-y-3">
-              <h2 className="text-lg font-semibold text-foreground">Answer Choices</h2>
+              <h2 className="text-lg font-semibold text-foreground">
+                Answer Choices
+              </h2>
               {questionData.answers.map((answer) => {
                 const isSelected = selectedAnswerId === answer._id
                 const isCorrectAnswer = answer.isCorrect
                 const showCorrect = hasSubmitted && isCorrectAnswer
-                const showIncorrect = hasSubmitted && isSelected && !isCorrectAnswer
+                const showIncorrect =
+                  hasSubmitted && isSelected && !isCorrectAnswer
 
                 return (
                   <button
                     key={answer._id}
-                    onClick={() => !hasSubmitted && setSelectedAnswerId(answer._id)}
+                    onClick={() =>
+                      !hasSubmitted && setSelectedAnswerId(answer._id)
+                    }
                     disabled={hasSubmitted}
                     className={`
                       w-full text-left p-4 rounded-lg border-2 transition-all cursor-pointer
@@ -199,7 +207,9 @@ function QuestionAnswerPage() {
                         {showCorrect && (
                           <CheckCircle2 size={20} className="text-green-600" />
                         )}
-                        {showIncorrect && <XCircle size={20} className="text-red-600" />}
+                        {showIncorrect && (
+                          <XCircle size={20} className="text-red-600" />
+                        )}
                         {!hasSubmitted && (
                           <div
                             className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
@@ -221,7 +231,9 @@ function QuestionAnswerPage() {
                           <span className="font-semibold text-foreground">
                             {answer.choiceLetter}.
                           </span>
-                          <span className="text-foreground">{answer.choiceText}</span>
+                          <span className="text-foreground">
+                            {answer.choiceText}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -260,9 +272,14 @@ function QuestionAnswerPage() {
                 <div className="flex items-center gap-3 mb-4">
                   {isCorrect ? (
                     <>
-                      <CheckCircle2 size={32} className="text-green-600 flex-shrink-0" />
+                      <CheckCircle2
+                        size={32}
+                        className="text-green-600 flex-shrink-0"
+                      />
                       <div>
-                        <h3 className="text-xl font-bold text-green-900">Correct!</h3>
+                        <h3 className="text-xl font-bold text-green-900">
+                          Correct!
+                        </h3>
                         <p className="text-green-700">
                           Great job! You selected the right answer.
                         </p>
@@ -270,9 +287,14 @@ function QuestionAnswerPage() {
                     </>
                   ) : (
                     <>
-                      <XCircle size={32} className="text-red-600 flex-shrink-0" />
+                      <XCircle
+                        size={32}
+                        className="text-red-600 flex-shrink-0"
+                      />
                       <div>
-                        <h3 className="text-xl font-bold text-red-900">Incorrect</h3>
+                        <h3 className="text-xl font-bold text-red-900">
+                          Incorrect
+                        </h3>
                         <p className="text-red-700">
                           The correct answer was{' '}
                           <span className="font-semibold">
@@ -287,7 +309,9 @@ function QuestionAnswerPage() {
 
                 {/* Explanation */}
                 <div className="mt-4 pt-4 border-t border-current/20">
-                  <h4 className="font-semibold text-foreground mb-2">Explanation</h4>
+                  <h4 className="font-semibold text-foreground mb-2">
+                    Explanation
+                  </h4>
                   <p className="text-foreground whitespace-pre-wrap">
                     {questionData.explanation}
                   </p>

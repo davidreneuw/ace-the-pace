@@ -1,7 +1,5 @@
-import { useNavigate } from '@tanstack/react-router'
-import { AuthKitProvider, useAuth } from '@workos-inc/authkit-react'
-import { useEffect } from 'react'
-import { setAuthState } from '../../lib/auth-state'
+import { useRouter } from '@tanstack/react-router'
+import { AuthKitProvider } from '@workos-inc/authkit-react'
 
 const VITE_WORKOS_CLIENT_ID = import.meta.env.VITE_WORKOS_CLIENT_ID
 if (!VITE_WORKOS_CLIENT_ID) {
@@ -15,21 +13,50 @@ if (!VITE_WORKOS_API_HOSTNAME) {
 
 const VITE_WORKOS_REDIRECT_URI = import.meta.env.VITE_WORKOS_REDIRECT_URI
 
-// Component to sync WorkOS auth state with global auth state
-function AuthStateSync({ children }: { children: React.ReactNode }) {
-  const auth = useAuth()
+// Validate that the redirect URL is safe (prevents open redirect attacks)
+function isValidRedirectUrl(url: string): boolean {
+  try {
+    // Must start with / (internal path)
+    if (!url.startsWith('/')) {
+      return false
+    }
 
-  useEffect(() => {
-    // Update global auth state whenever WorkOS auth changes
-    setAuthState({
-      user: auth.user,
-      isLoading: auth.isLoading,
-      signIn: auth.signIn,
-      signOut: auth.signOut,
-    })
-  }, [auth.user, auth.isLoading, auth.signIn, auth.signOut])
+    // Must not contain double slashes (could be protocol://domain)
+    if (url.includes('//')) {
+      return false
+    }
 
-  return <>{children}</>
+    // Verify it's a valid internal URL
+    const fullUrl = new URL(url, window.location.origin)
+    return fullUrl.origin === window.location.origin
+  } catch {
+    return false
+  }
+}
+
+// Inner component that has access to router
+function WorkOSProviderWithRouter({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  return (
+    <AuthKitProvider
+      clientId={VITE_WORKOS_CLIENT_ID}
+      apiHostname={VITE_WORKOS_API_HOSTNAME}
+      redirectUri={VITE_WORKOS_REDIRECT_URI}
+      onRedirectCallback={({ state }) => {
+        let returnTo = state?.returnTo || '/dashboard'
+
+        if (!isValidRedirectUrl(returnTo)) {
+          returnTo = '/dashboard'
+        }
+
+        setTimeout(() => {
+          router.navigate({ to: returnTo as any })
+        }, 0)
+      }}
+    >
+      {children}
+    </AuthKitProvider>
+  )
 }
 
 export default function AppWorkOSProvider({
@@ -37,29 +64,5 @@ export default function AppWorkOSProvider({
 }: {
   children: React.ReactNode
 }) {
-  const navigate = useNavigate()
-
-  return (
-    <AuthKitProvider
-      clientId={VITE_WORKOS_CLIENT_ID}
-      apiHostname={VITE_WORKOS_API_HOSTNAME}
-      redirectUri={VITE_WORKOS_REDIRECT_URI}
-      onRedirectCallback={({ state }) => {
-        console.log('WorkOS redirect callback received:', { state })
-
-        // Try to get returnTo from state first, then from sessionStorage
-        let returnTo = state?.returnTo
-
-        if (returnTo) {
-          console.log('Navigating to:', returnTo)
-          navigate({ to: returnTo, reloadDocument: true })
-        } else {
-          console.log('No returnTo found, navigating to dashboard')
-          navigate({ to: '/dashboard' })
-        }
-      }}
-    >
-      <AuthStateSync>{children}</AuthStateSync>
-    </AuthKitProvider>
-  )
+  return <WorkOSProviderWithRouter>{children}</WorkOSProviderWithRouter>
 }

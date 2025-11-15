@@ -1,5 +1,4 @@
-import Header from '@/components/Header'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useAuth } from '@workos-inc/authkit-react'
 import {
   BookOpen,
@@ -10,11 +9,28 @@ import {
   Target,
   TrendingUp,
 } from 'lucide-react'
+import { z } from 'zod'
+import Header from '@/components/Header'
 
-export const Route = createFileRoute('/')({ component: App })
+// Validate search params
+const homeSearchSchema = z.object({
+  returnTo: z.string().optional(),
+})
+
+export const Route = createFileRoute('/')({
+  validateSearch: homeSearchSchema,
+  beforeLoad: ({ context, search }) => {
+    // If already authenticated and there's a returnTo, redirect immediately
+    if (context.auth.user && search.returnTo) {
+      throw redirect({ to: search.returnTo as any })
+    }
+  },
+  component: App,
+})
 
 function App() {
   const { signIn } = useAuth()
+  const search = Route.useSearch()
   const features = [
     {
       icon: <BookOpen className="w-12 h-12 text-primary" />,
@@ -70,17 +86,17 @@ function App() {
               Master the Physician Assistant Certification Exam
             </p>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-10">
-              Comprehensive practice questions and study resources designed specifically
-              for the Canadian PACE exam. Build confidence, track your progress, and
-              achieve your certification goals.
+              Comprehensive practice questions and study resources designed
+              specifically for the Canadian PACE exam. Build confidence, track
+              your progress, and achieve your certification goals.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => {
-                  var returnTo = window.location.pathname + "/dashboard"
+                  // Use returnTo from query params, or default to /dashboard
+                  const returnTo = search.returnTo || '/dashboard'
                   signIn({ state: { returnTo } })
                 }}
-
                 className="px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors shadow-lg cursor-pointer"
               >
                 Start Practicing
@@ -89,7 +105,6 @@ function App() {
               <button className="px-8 py-4 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold rounded-lg transition-colors cursor-pointer">
                 Learn More
               </button>
-
             </div>
           </div>
         </section>
@@ -100,8 +115,8 @@ function App() {
               Everything You Need to Succeed
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our platform provides comprehensive tools and resources to help you prepare
-              effectively for the PACE exam.
+              Our platform provides comprehensive tools and resources to help
+              you prepare effectively for the PACE exam.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
