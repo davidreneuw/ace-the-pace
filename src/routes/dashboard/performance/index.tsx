@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { BarChart } from 'lucide-react'
 
-export const Route = createFileRoute('/dashboard/performance')({
+export const Route = createFileRoute('/dashboard/performance/')({
   component: PerformancePage,
 })
 

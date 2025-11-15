@@ -1,11 +1,12 @@
 import { Link } from '@tanstack/react-router'
 import { useAuth } from '@workos-inc/authkit-react'
-import { BarChart, BookOpen, ChevronUp, FolderTree, GraduationCap, Home, LogOut, Menu, Settings } from 'lucide-react'
+import { BarChart, BookOpen, ChevronUp, FolderTree, GraduationCap, Home, LogOut, PanelLeftClose, PanelLeftOpen, Play, Settings } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
-  { name: 'Practice Questions', href: '/dashboard/questions', icon: BookOpen },
+  { name: 'Practice Sessions', href: '/dashboard/questions/practice', icon: Play },
+  { name: 'Question Bank', href: '/dashboard/questions', icon: BookOpen },
   { name: 'Categories', href: '/dashboard/categories', icon: FolderTree },
   { name: 'Performance', href: '/dashboard/performance', icon: BarChart },
 ]
@@ -46,7 +47,7 @@ export default function DashboardSidebar() {
           className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-card border border-border hover:bg-muted text-foreground rounded-lg transition-colors cursor-pointer shadow-lg"
           aria-label="Open menu"
         >
-          <Menu size={20} />
+          <PanelLeftOpen size={20} />
         </button>
       )}
 
@@ -78,7 +79,11 @@ export default function DashboardSidebar() {
                 className="flex items-center justify-center gap-3 px-3 py-2 rounded-lg hover:bg-muted transition-colors cursor-pointer flex-shrink-0"
                 aria-label={isMobileOpen ? 'Close menu' : isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
-                <Menu size={20} className="flex-shrink-0" />
+                {isMobileOpen || !isCollapsed ? (
+                  <PanelLeftClose size={20} className="flex-shrink-0" />
+                ) : (
+                  <PanelLeftOpen size={20} className="flex-shrink-0" />
+                )}
               </button>
 
               {/* Logo - Fades out when collapsed */}

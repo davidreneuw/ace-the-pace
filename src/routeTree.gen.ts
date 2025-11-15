@@ -10,17 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CallbackRouteImport } from './routes/callback'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as DashboardQuestionsRouteImport } from './routes/dashboard/questions'
-import { Route as DashboardPracticeRouteImport } from './routes/dashboard/practice'
-import { Route as DashboardPerformanceRouteImport } from './routes/dashboard/performance'
-import { Route as DashboardCategoriesRouteImport } from './routes/dashboard/categories'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard/admin'
 import { Route as DashboardQuestionsIndexRouteImport } from './routes/dashboard/questions/index'
+import { Route as DashboardPracticeIndexRouteImport } from './routes/dashboard/practice/index'
+import { Route as DashboardPerformanceIndexRouteImport } from './routes/dashboard/performance/index'
+import { Route as DashboardCategoriesIndexRouteImport } from './routes/dashboard/categories/index'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
-import { Route as DashboardQuestionsPracticeRouteImport } from './routes/dashboard/questions/practice'
-import { Route as DashboardQuestionsBankRouteImport } from './routes/dashboard/questions/bank'
 import { Route as DashboardAdminQuestionsRouteImport } from './routes/dashboard/admin/questions'
 import { Route as DashboardAdminCategoriesRouteImport } from './routes/dashboard/admin/categories'
 import { Route as DashboardQuestionsAnswerQuestionIdRouteImport } from './routes/dashboard/questions/answer.$questionId'
@@ -28,6 +26,11 @@ import { Route as DashboardQuestionsAnswerQuestionIdRouteImport } from './routes
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CallbackRoute = CallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -40,51 +43,37 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
-const DashboardQuestionsRoute = DashboardQuestionsRouteImport.update({
-  id: '/questions',
-  path: '/questions',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardPracticeRoute = DashboardPracticeRouteImport.update({
-  id: '/practice',
-  path: '/practice',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardPerformanceRoute = DashboardPerformanceRouteImport.update({
-  id: '/performance',
-  path: '/performance',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardCategoriesRoute = DashboardCategoriesRouteImport.update({
-  id: '/categories',
-  path: '/categories',
-  getParentRoute: () => DashboardRoute,
-} as any)
 const DashboardAdminRoute = DashboardAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardQuestionsIndexRoute = DashboardQuestionsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardQuestionsRoute,
+  id: '/questions/',
+  path: '/questions/',
+  getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardPracticeIndexRoute = DashboardPracticeIndexRouteImport.update({
+  id: '/practice/',
+  path: '/practice/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPerformanceIndexRoute =
+  DashboardPerformanceIndexRouteImport.update({
+    id: '/performance/',
+    path: '/performance/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardCategoriesIndexRoute =
+  DashboardCategoriesIndexRouteImport.update({
+    id: '/categories/',
+    path: '/categories/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardAdminRoute,
-} as any)
-const DashboardQuestionsPracticeRoute =
-  DashboardQuestionsPracticeRouteImport.update({
-    id: '/practice',
-    path: '/practice',
-    getParentRoute: () => DashboardQuestionsRoute,
-  } as any)
-const DashboardQuestionsBankRoute = DashboardQuestionsBankRouteImport.update({
-  id: '/bank',
-  path: '/bank',
-  getParentRoute: () => DashboardQuestionsRoute,
 } as any)
 const DashboardAdminQuestionsRoute = DashboardAdminQuestionsRouteImport.update({
   id: '/questions',
@@ -99,57 +88,52 @@ const DashboardAdminCategoriesRoute =
   } as any)
 const DashboardQuestionsAnswerQuestionIdRoute =
   DashboardQuestionsAnswerQuestionIdRouteImport.update({
-    id: '/answer/$questionId',
-    path: '/answer/$questionId',
-    getParentRoute: () => DashboardQuestionsRoute,
+    id: '/questions/answer/$questionId',
+    path: '/questions/answer/$questionId',
+    getParentRoute: () => DashboardRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/admin': typeof DashboardAdminRouteWithChildren
-  '/dashboard/categories': typeof DashboardCategoriesRoute
-  '/dashboard/performance': typeof DashboardPerformanceRoute
-  '/dashboard/practice': typeof DashboardPracticeRoute
-  '/dashboard/questions': typeof DashboardQuestionsRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
   '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
-  '/dashboard/questions/bank': typeof DashboardQuestionsBankRoute
-  '/dashboard/questions/practice': typeof DashboardQuestionsPracticeRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
-  '/dashboard/questions/': typeof DashboardQuestionsIndexRoute
+  '/dashboard/categories': typeof DashboardCategoriesIndexRoute
+  '/dashboard/performance': typeof DashboardPerformanceIndexRoute
+  '/dashboard/practice': typeof DashboardPracticeIndexRoute
+  '/dashboard/questions': typeof DashboardQuestionsIndexRoute
   '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard/categories': typeof DashboardCategoriesRoute
-  '/dashboard/performance': typeof DashboardPerformanceRoute
-  '/dashboard/practice': typeof DashboardPracticeRoute
+  '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
   '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
-  '/dashboard/questions/bank': typeof DashboardQuestionsBankRoute
-  '/dashboard/questions/practice': typeof DashboardQuestionsPracticeRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
+  '/dashboard/categories': typeof DashboardCategoriesIndexRoute
+  '/dashboard/performance': typeof DashboardPerformanceIndexRoute
+  '/dashboard/practice': typeof DashboardPracticeIndexRoute
   '/dashboard/questions': typeof DashboardQuestionsIndexRoute
   '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/callback': typeof CallbackRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/admin': typeof DashboardAdminRouteWithChildren
-  '/dashboard/categories': typeof DashboardCategoriesRoute
-  '/dashboard/performance': typeof DashboardPerformanceRoute
-  '/dashboard/practice': typeof DashboardPracticeRoute
-  '/dashboard/questions': typeof DashboardQuestionsRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/categories': typeof DashboardAdminCategoriesRoute
   '/dashboard/admin/questions': typeof DashboardAdminQuestionsRoute
-  '/dashboard/questions/bank': typeof DashboardQuestionsBankRoute
-  '/dashboard/questions/practice': typeof DashboardQuestionsPracticeRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/categories/': typeof DashboardCategoriesIndexRoute
+  '/dashboard/performance/': typeof DashboardPerformanceIndexRoute
+  '/dashboard/practice/': typeof DashboardPracticeIndexRoute
   '/dashboard/questions/': typeof DashboardQuestionsIndexRoute
   '/dashboard/questions/answer/$questionId': typeof DashboardQuestionsAnswerQuestionIdRoute
 }
@@ -157,55 +141,51 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/callback'
     | '/dashboard'
     | '/dashboard/admin'
+    | '/dashboard/'
+    | '/dashboard/admin/categories'
+    | '/dashboard/admin/questions'
+    | '/dashboard/admin/'
     | '/dashboard/categories'
     | '/dashboard/performance'
     | '/dashboard/practice'
     | '/dashboard/questions'
-    | '/dashboard/'
-    | '/dashboard/admin/categories'
-    | '/dashboard/admin/questions'
-    | '/dashboard/questions/bank'
-    | '/dashboard/questions/practice'
-    | '/dashboard/admin/'
-    | '/dashboard/questions/'
     | '/dashboard/questions/answer/$questionId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard/categories'
-    | '/dashboard/performance'
-    | '/dashboard/practice'
+    | '/callback'
     | '/dashboard'
     | '/dashboard/admin/categories'
     | '/dashboard/admin/questions'
-    | '/dashboard/questions/bank'
-    | '/dashboard/questions/practice'
     | '/dashboard/admin'
+    | '/dashboard/categories'
+    | '/dashboard/performance'
+    | '/dashboard/practice'
     | '/dashboard/questions'
     | '/dashboard/questions/answer/$questionId'
   id:
     | '__root__'
     | '/'
+    | '/callback'
     | '/dashboard'
     | '/dashboard/admin'
-    | '/dashboard/categories'
-    | '/dashboard/performance'
-    | '/dashboard/practice'
-    | '/dashboard/questions'
     | '/dashboard/'
     | '/dashboard/admin/categories'
     | '/dashboard/admin/questions'
-    | '/dashboard/questions/bank'
-    | '/dashboard/questions/practice'
     | '/dashboard/admin/'
+    | '/dashboard/categories/'
+    | '/dashboard/performance/'
+    | '/dashboard/practice/'
     | '/dashboard/questions/'
     | '/dashboard/questions/answer/$questionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CallbackRoute: typeof CallbackRoute
   DashboardRoute: typeof DashboardRouteWithChildren
 }
 
@@ -216,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/callback': {
+      id: '/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof CallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -232,34 +219,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
-    '/dashboard/questions': {
-      id: '/dashboard/questions'
-      path: '/questions'
-      fullPath: '/dashboard/questions'
-      preLoaderRoute: typeof DashboardQuestionsRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/dashboard/practice': {
-      id: '/dashboard/practice'
-      path: '/practice'
-      fullPath: '/dashboard/practice'
-      preLoaderRoute: typeof DashboardPracticeRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/dashboard/performance': {
-      id: '/dashboard/performance'
-      path: '/performance'
-      fullPath: '/dashboard/performance'
-      preLoaderRoute: typeof DashboardPerformanceRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/dashboard/categories': {
-      id: '/dashboard/categories'
-      path: '/categories'
-      fullPath: '/dashboard/categories'
-      preLoaderRoute: typeof DashboardCategoriesRouteImport
-      parentRoute: typeof DashboardRoute
-    }
     '/dashboard/admin': {
       id: '/dashboard/admin'
       path: '/admin'
@@ -269,10 +228,31 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/questions/': {
       id: '/dashboard/questions/'
-      path: '/'
-      fullPath: '/dashboard/questions/'
+      path: '/questions'
+      fullPath: '/dashboard/questions'
       preLoaderRoute: typeof DashboardQuestionsIndexRouteImport
-      parentRoute: typeof DashboardQuestionsRoute
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/practice/': {
+      id: '/dashboard/practice/'
+      path: '/practice'
+      fullPath: '/dashboard/practice'
+      preLoaderRoute: typeof DashboardPracticeIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/performance/': {
+      id: '/dashboard/performance/'
+      path: '/performance'
+      fullPath: '/dashboard/performance'
+      preLoaderRoute: typeof DashboardPerformanceIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/categories/': {
+      id: '/dashboard/categories/'
+      path: '/categories'
+      fullPath: '/dashboard/categories'
+      preLoaderRoute: typeof DashboardCategoriesIndexRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/admin/': {
       id: '/dashboard/admin/'
@@ -280,20 +260,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/admin/'
       preLoaderRoute: typeof DashboardAdminIndexRouteImport
       parentRoute: typeof DashboardAdminRoute
-    }
-    '/dashboard/questions/practice': {
-      id: '/dashboard/questions/practice'
-      path: '/practice'
-      fullPath: '/dashboard/questions/practice'
-      preLoaderRoute: typeof DashboardQuestionsPracticeRouteImport
-      parentRoute: typeof DashboardQuestionsRoute
-    }
-    '/dashboard/questions/bank': {
-      id: '/dashboard/questions/bank'
-      path: '/bank'
-      fullPath: '/dashboard/questions/bank'
-      preLoaderRoute: typeof DashboardQuestionsBankRouteImport
-      parentRoute: typeof DashboardQuestionsRoute
     }
     '/dashboard/admin/questions': {
       id: '/dashboard/admin/questions'
@@ -311,10 +277,10 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/questions/answer/$questionId': {
       id: '/dashboard/questions/answer/$questionId'
-      path: '/answer/$questionId'
+      path: '/questions/answer/$questionId'
       fullPath: '/dashboard/questions/answer/$questionId'
       preLoaderRoute: typeof DashboardQuestionsAnswerQuestionIdRouteImport
-      parentRoute: typeof DashboardQuestionsRoute
+      parentRoute: typeof DashboardRoute
     }
   }
 }
@@ -335,40 +301,25 @@ const DashboardAdminRouteWithChildren = DashboardAdminRoute._addFileChildren(
   DashboardAdminRouteChildren,
 )
 
-interface DashboardQuestionsRouteChildren {
-  DashboardQuestionsBankRoute: typeof DashboardQuestionsBankRoute
-  DashboardQuestionsPracticeRoute: typeof DashboardQuestionsPracticeRoute
+interface DashboardRouteChildren {
+  DashboardAdminRoute: typeof DashboardAdminRouteWithChildren
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardCategoriesIndexRoute: typeof DashboardCategoriesIndexRoute
+  DashboardPerformanceIndexRoute: typeof DashboardPerformanceIndexRoute
+  DashboardPracticeIndexRoute: typeof DashboardPracticeIndexRoute
   DashboardQuestionsIndexRoute: typeof DashboardQuestionsIndexRoute
   DashboardQuestionsAnswerQuestionIdRoute: typeof DashboardQuestionsAnswerQuestionIdRoute
 }
 
-const DashboardQuestionsRouteChildren: DashboardQuestionsRouteChildren = {
-  DashboardQuestionsBankRoute: DashboardQuestionsBankRoute,
-  DashboardQuestionsPracticeRoute: DashboardQuestionsPracticeRoute,
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAdminRoute: DashboardAdminRouteWithChildren,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardCategoriesIndexRoute: DashboardCategoriesIndexRoute,
+  DashboardPerformanceIndexRoute: DashboardPerformanceIndexRoute,
+  DashboardPracticeIndexRoute: DashboardPracticeIndexRoute,
   DashboardQuestionsIndexRoute: DashboardQuestionsIndexRoute,
   DashboardQuestionsAnswerQuestionIdRoute:
     DashboardQuestionsAnswerQuestionIdRoute,
-}
-
-const DashboardQuestionsRouteWithChildren =
-  DashboardQuestionsRoute._addFileChildren(DashboardQuestionsRouteChildren)
-
-interface DashboardRouteChildren {
-  DashboardAdminRoute: typeof DashboardAdminRouteWithChildren
-  DashboardCategoriesRoute: typeof DashboardCategoriesRoute
-  DashboardPerformanceRoute: typeof DashboardPerformanceRoute
-  DashboardPracticeRoute: typeof DashboardPracticeRoute
-  DashboardQuestionsRoute: typeof DashboardQuestionsRouteWithChildren
-  DashboardIndexRoute: typeof DashboardIndexRoute
-}
-
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardAdminRoute: DashboardAdminRouteWithChildren,
-  DashboardCategoriesRoute: DashboardCategoriesRoute,
-  DashboardPerformanceRoute: DashboardPerformanceRoute,
-  DashboardPracticeRoute: DashboardPracticeRoute,
-  DashboardQuestionsRoute: DashboardQuestionsRouteWithChildren,
-  DashboardIndexRoute: DashboardIndexRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
@@ -377,6 +328,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CallbackRoute: CallbackRoute,
   DashboardRoute: DashboardRouteWithChildren,
 }
 export const routeTree = rootRouteImport

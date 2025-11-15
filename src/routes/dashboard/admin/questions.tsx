@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery, useMutation } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Id } from '../../../../convex/_generated/dataModel'
-import { Plus, Edit, Trash2 } from 'lucide-react'
+import { Plus, Edit, Trash2, Copy } from 'lucide-react'
 
 export const Route = createFileRoute('/dashboard/admin/questions')({
   component: QuestionManagement,
@@ -49,6 +49,7 @@ const emptyForm: QuestionForm = {
 function QuestionManagement() {
   const [formData, setFormData] = useState<QuestionForm>(emptyForm)
   const [selectedId, setSelectedId] = useState<Id<'questions'> | null>(null)
+  const [isCloning, setIsCloning] = useState(false)
 
   // Queries
   const questions = useQuery(api.questions.listAll)
@@ -66,8 +67,38 @@ function QuestionManagement() {
 
   const questionsLoading = questions === undefined
 
+  // Handle cloning when question data loads
+  useEffect(() => {
+    if (isCloning && selectedQuestion && selectedId) {
+      const question = questions?.find((q) => q._id === selectedId)
+      if (question) {
+        setFormData({
+          questionText: `Copy of ${question.questionText}`,
+          imageStorageId: question.imageStorageId,
+          audioStorageId: question.audioStorageId,
+          videoStorageId: question.videoStorageId,
+          difficulty: question.difficulty,
+          explanation: question.explanation,
+          categoryIds: question.categoryIds,
+          isActive: question.isActive,
+          order: question.order,
+          answers: selectedQuestion.answers.map((a) => ({
+            choiceText: a.choiceText,
+            choiceLetter: a.choiceLetter,
+            isCorrect: a.isCorrect,
+            imageStorageId: a.imageStorageId,
+            order: a.order,
+          })),
+        })
+        setSelectedId(null)
+        setIsCloning(false)
+      }
+    }
+  }, [isCloning, selectedQuestion, selectedId, questions])
+
   // Load selected question into form
   const handleSelectQuestion = (id: Id<'questions'>) => {
+    setIsCloning(false)
     setSelectedId(id)
     const question = questions?.find((q) => q._id === id)
     if (question && selectedQuestion) {
@@ -98,6 +129,7 @@ function QuestionManagement() {
   const handleNewQuestion = () => {
     setSelectedId(null)
     setFormData(emptyForm)
+    setIsCloning(false)
   }
 
   // Save question
@@ -189,6 +221,12 @@ function QuestionManagement() {
     }
   }
 
+  // Clone question
+  const handleClone = (id: Id<'questions'>) => {
+    setIsCloning(true)
+    setSelectedId(id)
+  }
+
   const difficultyColors = {
     easy: 'bg-green-100 text-green-800 border-green-200',
     medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -248,6 +286,16 @@ function QuestionManagement() {
                     aria-label="Edit"
                   >
                     <Edit size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleClone(question._id)
+                    }}
+                    className="p-1 hover:bg-primary/10 text-primary rounded cursor-pointer"
+                    aria-label="Clone"
+                  >
+                    <Copy size={14} />
                   </button>
                   <button
                     onClick={(e) => {

@@ -1,8 +1,7 @@
-import { HeadContent, Scripts, createRootRoute, useLocation } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
-import Header from '../components/Header'
 
 import WorkOSProvider from '../integrations/workos/provider'
 
@@ -10,7 +9,17 @@ import ConvexProvider from '../integrations/convex/provider'
 
 import appCss from '../styles.css?url'
 
-export const Route = createRootRoute({
+// Define router context interface for type-safe auth state
+export interface RouterContext {
+  auth: {
+    user: any | null
+    isLoading: boolean
+    signIn: (options?: { state?: any }) => void
+    signOut: () => void
+  }
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       {
@@ -44,8 +53,6 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const location = useLocation()
-  const isDashboard = location.pathname.startsWith('/dashboard')
 
   return (
     <html lang="en">
@@ -55,7 +62,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <WorkOSProvider>
           <ConvexProvider>
-            {!isDashboard && <Header />}
             {children}
             <TanStackDevtools
               config={{

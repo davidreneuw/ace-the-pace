@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { BookOpen } from 'lucide-react'
 
-export const Route = createFileRoute('/dashboard/questions/practice')({
+export const Route = createFileRoute('/dashboard/practice/')({
   component: PracticePage,
 })
 
